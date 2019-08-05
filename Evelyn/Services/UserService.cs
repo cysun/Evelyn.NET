@@ -30,7 +30,8 @@ namespace Evelyn.Services
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Name)
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                new Claim(ClaimTypes.Name, user.Name)
             };
             return new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         }
