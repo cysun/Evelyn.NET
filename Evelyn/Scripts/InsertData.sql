@@ -1,0 +1,5 @@
+﻿SET IDENTITY_INSERT Users ON
+INSERT INTO Users (Id, Name, Hash) VALUES (1000, N'cysun', N'$2a$11$Y87nF62c7gvg7fbAa6IYA.xgEaYssPTew0JysYlqM3agW/Yeecc2u');
+SET IDENTITY_INSERT Users OFF
+
+GO

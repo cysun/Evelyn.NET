@@ -1,4 +1,7 @@
 {
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost;Database=evelyn;User ID=cysun;Password=abcd;"
+  },
   "Logging": {
     "LogLevel": {
       "Default": "Warning"

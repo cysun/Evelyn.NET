@@ -1,0 +1,3 @@
+﻿DROP TABLE IF EXISTS Users;
+
+GO
