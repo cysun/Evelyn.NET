@@ -1,0 +1,35 @@
+﻿@model List<Bookmark>
+
+@{
+  ViewData["Title"] = "Bookmarks";
+}
+
+<nav>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active">Bookmarks</li>
+  </ol>
+</nav>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Book</th>
+      <th>Author</th>
+      <th>Last Viewed</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var bookmark in Model)
+    {
+      <tr>
+        <td>@bookmark.Book.Title</td>
+        <td>@bookmark.Book.Author</td>
+        <td>@bookmark.Timestamp.ToString("g")</td>
+        <td>
+          <button class="btn btn-danger">Delete</button>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>

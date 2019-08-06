@@ -14,10 +14,7 @@ namespace Evelyn.Models
         public DateTime Timestamp { get; set; } = DateTime.Now;
 
         public byte[] Content { get; set; }
-    }
 
-    public class TextFile : File
-    {
         [NotMapped]
         public string Text
         {

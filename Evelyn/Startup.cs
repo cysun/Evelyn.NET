@@ -34,6 +34,9 @@ namespace Evelyn
 
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<UserService>();
+            services.AddScoped<FileService>();
+            services.AddScoped<BookService>();
+            services.AddScoped<BookmarkService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

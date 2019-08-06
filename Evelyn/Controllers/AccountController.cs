@@ -20,7 +20,7 @@ namespace Evelyn.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            return User.Identity.IsAuthenticated ? RedirectToAction("Index", "Books") : (IActionResult)View();
+            return User.Identity.IsAuthenticated ? RedirectToAction("List", "Bookmarks") : (IActionResult)View();
         }
 
         [HttpPost]
@@ -38,7 +38,7 @@ namespace Evelyn.Controllers
                 });
 
             return string.IsNullOrWhiteSpace(returnUrl) ?
-                RedirectToAction("Index", "Books") :
+                RedirectToAction("List", "Bookmarks") :
                 (IActionResult)LocalRedirect(returnUrl);
         }
 

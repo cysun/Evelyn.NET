@@ -15,11 +15,13 @@ namespace Evelyn.Services
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasAlternateKey(u => u.Name);
-            modelBuilder.Entity<File>().HasDiscriminator<string>("Type");
             modelBuilder.Entity<File>().Property(f => f.Timestamp).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            modelBuilder.Entity<Book>().Property(b => b.LastUpdated).HasDefaultValueSql("CURRENT_TIMESTAMP");
             modelBuilder.Entity<Book>().Property(b => b.IsDeleted).HasDefaultValue(false);
             modelBuilder.Entity<Book>().HasQueryFilter(b => !b.IsDeleted);
             modelBuilder.Entity<Chapter>().HasKey(c => new { c.BookId, c.Number });
+            modelBuilder.Entity<Chapter>().Property(c => c.LastUpdated).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            modelBuilder.Entity<Bookmark>().HasAlternateKey(b => new { b.UserId, b.BookId });
             modelBuilder.Entity<Bookmark>().Property(b => b.Timestamp).HasDefaultValueSql("CURRENT_TIMESTAMP");
         }
     }

@@ -1,0 +1,40 @@
+﻿@model List<Book>
+
+@{
+  ViewData["Title"] = "Books";
+}
+
+<nav>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active">Books</li>
+  </ol>
+</nav>
+
+<form class="form-inline mb-3">
+  <input name="term" type="text" class="form-control">
+  <button type="submit" class="btn btn-primary ml-2">Search</button>
+  <a asp-action="Add" class="btn btn-primary ml-2">New Book</a>
+</form>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Book</th>
+      <th>Author</th>
+      <th>Last Updated</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var book in Model)
+    {
+      <tr>
+        <td>@book.Title</td>
+        <td>@book.Author</td>
+        <td>@book.LastUpdated.ToString("g")</td>
+        <td>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
