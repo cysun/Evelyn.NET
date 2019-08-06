@@ -20,7 +20,7 @@ namespace Evelyn.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            return View();
+            return User.Identity.IsAuthenticated ? RedirectToAction("Index", "Books") : (IActionResult)View();
         }
 
         [HttpPost]

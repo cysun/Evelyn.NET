@@ -15,17 +15,10 @@ namespace Evelyn.Services
             this.db = db;
         }
 
-        public User GetUser(string name)
-        {
-            return db.Users
-                .Where(u => u.Name.ToUpper() == name.ToUpper())
-                .SingleOrDefault();
-        }
-
         public ClaimsIdentity Authenticate(string username, string password)
         {
             var user = GetUser(username);
-            if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.Hash))
+            if (user == null || !user.VerifyPassword(password))
                 return null;
 
             var claims = new List<Claim>
@@ -35,5 +28,12 @@ namespace Evelyn.Services
             };
             return new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         }
+
+        public User GetUser(string name)
+        {
+            return db.Users.Where(u => u.Name.ToUpper() == name.ToUpper()).SingleOrDefault();
+        }
+
+        public void SaveChanges() => db.SaveChanges();
     }
 }
