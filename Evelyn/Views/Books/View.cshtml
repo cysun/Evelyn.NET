@@ -1,0 +1,22 @@
+﻿@model Book
+
+@{
+  ViewData["Title"] = "View Book";
+}
+
+<nav>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-action="List">Books</a></li>
+    <li class="breadcrumb-item active">@Model.Title</li>
+  </ol>
+</nav>
+
+<table class="table">
+  @foreach (var chapter in Model.Chapters)
+  {
+    <tr>
+      <td>@chapter.Number</td>
+      <td><a href="/Book/@Model.BookId/Chapter/@chapter.Number">@chapter.Name</a></td>
+    </tr>
+  }
+</table>

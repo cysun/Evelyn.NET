@@ -24,6 +24,15 @@ namespace Evelyn.Controllers
             return View(bookService.GetBooks());
         }
 
+        public IActionResult View(int id)
+        {
+            var book = bookService.GetBook(id);
+            if (book.Chapters.Count > 1)
+                return View(book);
+            else
+                return LocalRedirect($"/Book/{id}/Chapter/1");
+        }
+
         [HttpGet]
         public IActionResult Add()
         {
@@ -50,6 +59,16 @@ namespace Evelyn.Controllers
             bookService.SaveChanges();
 
             return RedirectToAction(nameof(List));
+        }
+
+        [HttpGet("/Book/{bookId}/Chapter/{chapterNumber}")]
+        public IActionResult ViewChapter(int bookId, int chapterNumber)
+        {
+            var book = bookService.GetBook(bookId);
+            var chapter = book.Chapters[chapterNumber - 1];
+            ViewBag.Chapter = chapter;
+            ViewBag.Html = fileService.GetFile(chapter.HtmlFileId ?? -1);
+            return View(book);
         }
 
         private void splitChapters(Book book, Models.File markdown, bool IsAppending = false)

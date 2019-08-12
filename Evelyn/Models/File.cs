@@ -87,7 +87,7 @@ namespace Evelyn.Models
             IImageFormat imageFormat;
             using (Image<Rgba32> image = Image.Load(imageFile.Content, out imageFormat))
             {
-                image.Mutate(x => x.Resize(48, 0));
+                image.Mutate(x => x.Resize(0, 48));
                 using (var output = new System.IO.MemoryStream())
                 {
                     image.Save(output, imageFormat);

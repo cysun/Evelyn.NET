@@ -19,6 +19,7 @@
 <table class="table">
   <thead>
     <tr>
+      <th></th>
       <th>Book</th>
       <th>Author</th>
       <th>Last Updated</th>
@@ -29,7 +30,13 @@
     @foreach (var book in Model)
     {
       <tr>
-        <td>@book.Title</td>
+        <td>
+          @if (book.ThumbnailFileId != null)
+          {
+            <img src="/Files/View/@book.ThumbnailFileId" alt="thumbnail" />
+          }
+        </td>
+        <td><a asp-action="View" asp-route-id="@book.BookId">@book.Title</a></td>
         <td>@book.Author</td>
         <td>@book.LastUpdated.ToString("g")</td>
         <td>
@@ -38,3 +45,11 @@
     }
   </tbody>
 </table>
+
+@section Scripts{
+  <script>
+    $(function () {
+      $("td").addClass("align-middle");
+    });
+  </script>
+}
