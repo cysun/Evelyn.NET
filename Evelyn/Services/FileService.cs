@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Evelyn.Models;
 using Microsoft.AspNetCore.Http;
 
@@ -17,26 +13,19 @@ namespace Evelyn.Services
             this.db = db;
         }
 
-        public async Task<Models.File> SaveFile(IFormFile uploadedFile)
+        public Models.File GetFile(int fileId)
         {
-            var file = new Models.File
-            {
-                Name = System.IO.Path.GetFileName(uploadedFile.FileName),
-                ContentType = uploadedFile.ContentType,
-                Length = uploadedFile.Length
+            return db.Files.Find(fileId);
+        }
 
-            };
-
-            using (var memoryStream = new MemoryStream())
-            {
-                await uploadedFile.CopyToAsync(memoryStream);
-                file.Content = memoryStream.ToArray();
-            }
-
+        public void AddFile(File file)
+        {
             db.Files.Add(file);
-            db.SaveChanges();
+        }
 
-            return file;
+        public void SaveChanges()
+        {
+            db.SaveChanges();
         }
     }
 }

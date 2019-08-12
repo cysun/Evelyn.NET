@@ -24,12 +24,12 @@ namespace Evelyn
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Authenticated", policyBuilder => policyBuilder.RequireAuthenticatedUser());
+                options.AddPolicy("IsAuthenticated", policyBuilder => policyBuilder.RequireAuthenticatedUser());
             });
 
             services.AddMvc(options =>
             {
-                options.Filters.Add(new AuthorizeFilter("Authenticated"));
+                options.Filters.Add(new AuthorizeFilter("IsAuthenticated"));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

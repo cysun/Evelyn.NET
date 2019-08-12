@@ -34,6 +34,9 @@ namespace Evelyn.Services
             return db.Users.Where(u => u.Name.ToUpper() == name.ToUpper()).SingleOrDefault();
         }
 
-        public void SaveChanges() => db.SaveChanges();
+        public void SaveChanges()
+        {
+            db.SaveChanges();
+        }
     }
 }

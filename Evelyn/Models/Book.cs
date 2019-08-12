@@ -15,7 +15,7 @@ namespace Evelyn.Models
         public string Author { get; set; }
         public string Notes { get; set; }
 
-        public List<Chapter> Chapters { get; set; }
+        public List<Chapter> Chapters { get; set; } = new List<Chapter>();
 
         public int? MarkdownFileId { get; set; }
         public File MarkdownFile { get; set; }

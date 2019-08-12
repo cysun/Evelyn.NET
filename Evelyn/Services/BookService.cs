@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Evelyn.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,13 +24,14 @@ namespace Evelyn.Services
             return db.Books.Where(b => b.BookId == bookId).Include(b => b.Chapters).SingleOrDefault();
         }
 
-        public Book AddBook(Book book)
+        public void AddBook(Book book)
         {
             db.Books.Add(book);
-            db.SaveChanges();
-            return book;
         }
 
-        public void SaveChanges() => db.SaveChanges();
+        public void SaveChanges()
+        {
+            db.SaveChanges();
+        }
     }
 }
