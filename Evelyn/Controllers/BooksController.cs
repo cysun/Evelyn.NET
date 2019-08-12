@@ -42,12 +42,8 @@ namespace Evelyn.Controllers
         [HttpPost]
         public IActionResult Add(Book book, IFormFile content, IFormFile cover)
         {
-            if (content != null)
-            {
-                var markdownFile = Models.File.FromUploadedFile(content);
-                book.MarkdownFile = markdownFile;
-                splitChapters(book, markdownFile);
-            }
+            var markdownFile = Models.File.FromUploadedFile(content);
+            processContent(book, markdownFile);
 
             if (cover != null)
             {
@@ -58,7 +54,38 @@ namespace Evelyn.Controllers
             bookService.AddBook(book);
             bookService.SaveChanges();
 
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(View), new { id = book.BookId });
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            return View(bookService.GetBook(id));
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int id, Book update, IFormFile content, IFormFile cover, bool isAppending)
+        {
+            var book = bookService.GetBook(id);
+            book.Title = update.Title;
+            book.Author = update.Author;
+            book.Notes = update.Notes;
+
+            if (content != null)
+            {
+                var markdownFile = Models.File.FromUploadedFile(content);
+                processContent(book, markdownFile, isAppending);
+            }
+
+            if (cover != null)
+            {
+                book.CoverFile = Models.File.FromUploadedFile(cover);
+                book.ThumbnailFile = Models.File.ImageToThumbnail(book.CoverFile);
+            }
+
+            bookService.SaveChanges();
+
+            return RedirectToAction(nameof(View), new { id = book.BookId });
         }
 
         [HttpGet("/Book/{bookId}/Chapter/{chapterNumber}")]
@@ -67,18 +94,28 @@ namespace Evelyn.Controllers
             var book = bookService.GetBook(bookId);
             var chapter = book.Chapters[chapterNumber - 1];
             ViewBag.Chapter = chapter;
-            ViewBag.Html = fileService.GetFile(chapter.HtmlFileId ?? -1);
+            ViewBag.Html = fileService.GetFile((int)chapter.HtmlFileId);
             return View(book);
         }
 
-        private void splitChapters(Book book, Models.File markdown, bool IsAppending = false)
+        private void processContent(Book book, Models.File markdownFile, bool IsAppending = false)
         {
-            if (!IsAppending) book.Chapters.Clear();
-            var chapters = new List<Chapter>();
+            if (!IsAppending)
+            {
+                book.MarkdownFile = markdownFile;
+                book.Chapters.Clear();
+            }
+            else
+            {
+                var oldFile = fileService.GetFile(book.MarkdownFileId ?? -1);
+                oldFile.Append(markdownFile);
+                fileService.SaveChanges();
+            }
 
+            var chapters = new List<Chapter>();
             string chapterName = null;
             var stringBuilder = new StringBuilder();
-            using (var reader = new StreamReader(markdown.OpenReadStream()))
+            using (var reader = new StreamReader(markdownFile.OpenReadStream()))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)
