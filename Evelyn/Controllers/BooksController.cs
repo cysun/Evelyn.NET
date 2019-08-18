@@ -10,13 +10,15 @@ namespace Evelyn.Controllers
 {
     public class BooksController : Controller
     {
-        private readonly BookService bookService;
         private readonly FileService fileService;
+        private readonly BookService bookService;
+        private readonly EBookService ebookService;
 
-        public BooksController(BookService bookService, FileService fileService)
+        public BooksController(FileService fileService, BookService bookService, EBookService ebookService)
         {
-            this.bookService = bookService;
             this.fileService = fileService;
+            this.bookService = bookService;
+            this.ebookService = ebookService;
         }
 
         public IActionResult List()
@@ -94,8 +96,17 @@ namespace Evelyn.Controllers
             var book = bookService.GetBook(bookId);
             var chapter = book.Chapters[chapterNumber - 1];
             ViewBag.Chapter = chapter;
-            ViewBag.Html = fileService.GetFile((int)chapter.HtmlFileId);
+            ViewBag.Html = fileService.GetFile(chapter.HtmlFileId);
             return View(book);
+        }
+
+        [HttpGet("/Book/{bookId}/EBook/Create")]
+        public IActionResult CreateEBook(int bookId)
+        {
+            var book = bookService.GetBook(bookId);
+            book.EBookFile = ebookService.CreateEPub(book);
+            bookService.SaveChanges();
+            return NoContent();
         }
 
         private void processContent(Book book, Models.File markdownFile, bool IsAppending = false)
@@ -107,7 +118,7 @@ namespace Evelyn.Controllers
             }
             else
             {
-                var oldFile = fileService.GetFile(book.MarkdownFileId ?? -1);
+                var oldFile = fileService.GetFile(book.MarkdownFileId);
                 oldFile.Append(markdownFile);
                 fileService.SaveChanges();
             }

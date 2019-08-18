@@ -41,6 +41,14 @@
         <td>@book.LastUpdated.ToString("g")</td>
         <td>
           <a asp-action="Edit" asp-route-id="@book.BookId" class="btn btn-primary">Edit</a>
+          @if (book.EBookFileId != null)
+          {
+            <a href="/Files/Download/@book.EBookFileId" class="btn btn-primary">Download EBook</a>
+          }
+          else
+          {
+            <button class="btn btn-primary create-ebook" type="button" data-book-id="@book.BookId">Create EBook</button>
+          }
         </td>
       </tr>
     }
@@ -51,6 +59,19 @@
   <script>
     $(function () {
       $("td").addClass("align-middle");
+      $(".create-ebook").click(function () {
+        var bookId = $(this).attr("data-book-id");
+        var createEBook = $(this);
+        var downloadEBook = $("<a href='/Book/" + bookId + "/EBook/Download'>Download EBook</a>").addClass("btn btn-primary");
+        $(this).html("<span class='spinner-border spinner-border-sm'></span> Create EBook");
+        $(this).prop("disabled", true);
+        $.ajax({
+          url: "/Book/" + bookId + "/EBook/Create",
+          success: function () {
+            createEBook.replaceWith(downloadEBook);
+          }
+        });
+      })
     });
   </script>
 }

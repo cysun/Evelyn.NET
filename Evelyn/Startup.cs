@@ -36,6 +36,7 @@ namespace Evelyn
             services.AddScoped<UserService>();
             services.AddScoped<FileService>();
             services.AddScoped<BookService>();
+            services.AddScoped<EBookService>();
             services.AddScoped<BookmarkService>();
         }
 

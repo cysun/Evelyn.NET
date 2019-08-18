@@ -1,6 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
 using Evelyn.Models;
-using Microsoft.AspNetCore.Http;
 
 namespace Evelyn.Services
 {
@@ -13,8 +12,9 @@ namespace Evelyn.Services
             this.db = db;
         }
 
-        public Models.File GetFile(int fileId)
+        public Models.File GetFile(int? fileId)
         {
+            if (fileId == null) throw new ArgumentNullException();
             return db.Files.Find(fileId);
         }
 

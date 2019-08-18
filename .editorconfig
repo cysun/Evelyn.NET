@@ -10,7 +10,7 @@ indent_style = space
 indent_size = 4 
 insert_final_newline = true 
 charset = utf-8-bom 
-[*.{css,html,cshtml,js,json}] 
+[*.{css,html,cshtml,xhtml,js,json}] 
 indent_size = 2
 ############################### 
 # .NET Coding Conventions     # 
