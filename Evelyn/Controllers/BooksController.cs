@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Evelyn.Models;
@@ -77,6 +78,7 @@ namespace Evelyn.Controllers
             {
                 var markdownFile = Models.File.FromUploadedFile(content);
                 processContent(book, markdownFile, isAppending);
+                book.EBookFileId = null;
             }
 
             if (cover != null)
@@ -85,6 +87,7 @@ namespace Evelyn.Controllers
                 book.ThumbnailFile = Models.File.ImageToThumbnail(book.CoverFile);
             }
 
+            book.LastUpdated = DateTime.Now;
             bookService.SaveChanges();
 
             return RedirectToAction(nameof(View), new { id = book.BookId });
@@ -106,7 +109,7 @@ namespace Evelyn.Controllers
             var book = bookService.GetBook(bookId);
             book.EBookFile = ebookService.CreateEPub(book);
             bookService.SaveChanges();
-            return NoContent();
+            return Ok(new { fileId = book.EBookFile.FileId });
         }
 
         private void processContent(Book book, Models.File markdownFile, bool IsAppending = false)
