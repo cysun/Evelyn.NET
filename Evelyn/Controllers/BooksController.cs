@@ -31,7 +31,6 @@ namespace Evelyn.Controllers
         public IActionResult View(int id)
         {
             var book = bookService.GetBook(id);
-            book.Chapters = book.Chapters.OrderBy(c => c.Number).ToList();
             if (book.Chapters.Count > 1)
                 return View(book);
             else

@@ -342,3 +342,4 @@ healthchecksdb
 # My Settings
 appsettings.json
 Migrations/
+deploy.sh

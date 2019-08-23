@@ -21,7 +21,12 @@ namespace Evelyn.Services
 
         public Book GetBook(int bookId)
         {
-            return db.Books.Where(b => b.BookId == bookId).Include(b => b.Chapters).SingleOrDefault();
+            var book = db.Books.Where(b => b.BookId == bookId).Include(b => b.Chapters).SingleOrDefault();
+
+	        if (book != null && book.Chapters.Count > 1)
+                book.Chapters = book.Chapters.OrderBy(c => c.Number).ToList();
+
+            return book;
         }
 
         public void AddBook(Book book)
