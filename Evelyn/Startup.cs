@@ -52,6 +52,7 @@ namespace Evelyn
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UsePathBase(Configuration.GetValue<string>("Application:PathBase"));
             app.UseStaticFiles();
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {

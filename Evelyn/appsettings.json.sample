@@ -1,4 +1,8 @@
 {
+  "Application": {
+    "Url": "http://localhost:5001",
+    "PathBase": "/"
+  },
   "ConnectionStrings": {
     "DefaultConnection": "Server=localhost;Database=evelyn;User ID=cysun;Password=abcd;"
   },
