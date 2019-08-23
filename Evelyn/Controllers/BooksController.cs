@@ -33,7 +33,7 @@ namespace Evelyn.Controllers
             if (book.Chapters.Count > 1)
                 return View(book);
             else
-                return LocalRedirect($"/Book/{id}/Chapter/1");
+                return LocalRedirect($"{Request.PathBase}/Book/{id}/Chapter/1");
         }
 
         [HttpGet]
