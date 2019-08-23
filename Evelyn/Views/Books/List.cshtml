@@ -33,7 +33,7 @@
         <td>
           @if (book.ThumbnailFileId != null)
           {
-            <img src="/Files/View/@book.ThumbnailFileId" alt="thumbnail" />
+            <img src="@Context.Request.PathBase/Files/View/@book.ThumbnailFileId" alt="thumbnail" />
           }
         </td>
         <td><a asp-action="View" asp-route-id="@book.BookId">@book.Title</a></td>
