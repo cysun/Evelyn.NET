@@ -33,7 +33,7 @@ namespace Evelyn
                 options.Filters.Add(new AuthorizeFilter("IsAuthenticated"));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<AppDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<UserService>();
             services.AddScoped<FileService>();
             services.AddScoped<BookService>();

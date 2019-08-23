@@ -17,7 +17,7 @@ namespace Evelyn.Models
 
         public List<Chapter> Chapters { get; set; } = new List<Chapter>();
 
-        public int? MarkdownFileId { get; set; }
+        public int MarkdownFileId { get; set; }
         public File MarkdownFile { get; set; }
 
         public int? EBookFileId { get; set; }
@@ -43,10 +43,10 @@ namespace Evelyn.Models
         public int Number { get; set; }
         public string Name { get; set; }
 
-        public int? MarkdownFileId { get; set; }
+        public int MarkdownFileId { get; set; }
         public File MarkdownFile { get; set; }
 
-        public int? HtmlFileId { get; set; }
+        public int HtmlFileId { get; set; }
         public File HtmlFile { get; set; }
 
         public DateTime LastUpdated { get; set; } = DateTime.Now;
