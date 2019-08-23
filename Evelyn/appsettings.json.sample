@@ -1,10 +1,10 @@
 {
   "Application": {
-    "Url": "http://localhost:5001",
-    "PathBase": "/"
+    "Url": "http://192.168.0.121/evelyn",
+    "PathBase": "/evelyn"
   },
   "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=evelyn;User ID=cysun;Password=abcd;"
+    "DefaultConnection": "Host=localhost;Database=evelyn;Username=cysun;Password=abcd"
   },
   "Logging": {
     "LogLevel": {
