@@ -11,7 +11,7 @@ namespace Evelyn.Services
 
         private readonly FileService fileService;
 
-        public EBookService(IHostingEnvironment env, FileService fileService)
+        public EBookService(IWebHostEnvironment env, FileService fileService)
         {
             this.templatePath = Path.Combine(env.ContentRootPath, "Templates", "EPub");
             this.fileService = fileService;

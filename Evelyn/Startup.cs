@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Evelyn
 {
@@ -28,10 +28,10 @@ namespace Evelyn
                 options.AddPolicy("IsAuthenticated", policyBuilder => policyBuilder.RequireAuthenticatedUser());
             });
 
-            services.AddMvc(options =>
+            services.AddControllersWithViews(options =>
             {
                 options.Filters.Add(new AuthorizeFilter("IsAuthenticated"));
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            });
 
             services.AddDbContext<AppDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<UserService>();
@@ -41,7 +41,7 @@ namespace Evelyn
             services.AddScoped<BookmarkService>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -54,17 +54,19 @@ namespace Evelyn
 
             app.UsePathBase(Configuration.GetValue<string>("Application:PathBase"));
             app.UseStaticFiles();
+            app.UseRouting();
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
             app.UseAuthentication();
+            app.UseAuthorization();
 
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Account}/{action=Login}/{id?}");
+                endpoints.MapControllerRoute(
+                    "default",
+                    "{controller=Account}/{action=Login}/{id?}");
             });
         }
     }
