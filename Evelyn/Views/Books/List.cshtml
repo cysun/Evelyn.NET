@@ -12,8 +12,8 @@
 
 <form class="form-inline mb-3">
   <input name="term" type="text" class="form-control">
-  <button type="submit" class="btn btn-primary ml-2">Search</button>
-  <a asp-action="Add" class="btn btn-primary ml-2">New Book</a>
+  <button type="submit" class="btn btn-outline-primary ml-2">Search</button>
+  <a asp-action="Add" class="btn btn-outline-primary ml-2">New Book</a>
 </form>
 
 <table class="table">
@@ -40,14 +40,17 @@
         <td>@book.Author</td>
         <td>@book.LastUpdated.ToString("g")</td>
         <td>
-          <a asp-action="Edit" asp-route-id="@book.BookId" class="btn btn-primary">Edit</a>
+          <a asp-action="Edit" asp-route-id="@book.BookId" class="btn btn-outline-primary">Edit</a>
           @if (book.EBookFileId != null)
           {
-            <a asp-controller="Files" asp-action="Download" asp-route-id="@book.EBookFileId" class="btn btn-primary">Download EBook</a>
+            <a asp-controller="Files" asp-action="Download" asp-route-id="@book.EBookFileId"
+               class="btn btn-outline-primary">Download EBook</a>
           }
           else
           {
-            <button class="btn btn-primary create-ebook" type="button" data-book-id="@book.BookId">Create EBook</button>
+            <button type="button" data-book-id="@book.BookId" class="btn btn-outline-primary create-ebook">
+              Create EBook
+            </button>
           }
         </td>
       </tr>
