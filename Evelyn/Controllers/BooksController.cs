@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using Evelyn.Models;
 using Evelyn.Services;
+using Markdig;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -102,6 +102,29 @@ namespace Evelyn.Controllers
             ViewBag.Chapter = chapter;
             ViewBag.Html = fileService.GetFile(chapter.HtmlFileId);
             return View(book);
+        }
+
+        [HttpGet("/Book/{bookId}/Chapter/{chapterNumber}/Edit")]
+        public IActionResult EditChapter(int bookId, int chapterNumber)
+        {
+            var book = bookService.GetBook(bookId);
+            var chapter = book.Chapters[chapterNumber - 1];
+            ViewBag.Chapter = chapter;
+            ViewBag.Markdown = fileService.GetFile(chapter.MarkdownFileId);
+            return View(book);
+        }
+
+        [HttpPost("/Book/{bookId}/Chapter/{chapterNumber}/Edit")]
+        public IActionResult EditChapter(int bookId, int chapterNumber, string text)
+        {
+            var book = bookService.GetBook(bookId);
+            var chapter = book.Chapters[chapterNumber - 1];
+            var markdownFile = fileService.GetFile(chapter.MarkdownFileId);
+            markdownFile.Text = text;
+            var htmlFile = fileService.GetFile(chapter.HtmlFileId);
+            htmlFile.Text = Markdown.ToHtml(text);
+            fileService.SaveChanges();
+            return Redirect($"../{chapterNumber}");
         }
 
         [HttpGet("/Book/{bookId}/EBook/Create")]
