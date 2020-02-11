@@ -12,8 +12,8 @@
 
 <form class="form-inline mb-3">
   <input name="term" type="text" class="form-control">
-  <button type="submit" class="btn btn-outline-primary ml-2">Search</button>
-  <a asp-action="Add" class="btn btn-outline-primary ml-2">New Book</a>
+  <button type="submit" class="btn btn-outline-primary ml-2"><i class="fas fa-search"></i></button>
+  <a asp-action="Add" class="btn btn-outline-primary ml-2"><i class="fas fa-plus"></i></a>
 </form>
 
 <table class="table">
@@ -21,8 +21,8 @@
     <tr>
       <th></th>
       <th>Book</th>
-      <th>Author</th>
-      <th>Last Updated</th>
+      <th class="d-none d-lg-table-cell">Author</th>
+      <th>Updated</th>
       <th></th>
     </tr>
   </thead>
@@ -37,19 +37,20 @@
           }
         </td>
         <td><a asp-action="View" asp-route-id="@book.BookId">@book.Title</a></td>
-        <td>@book.Author</td>
-        <td>@book.LastUpdated.ToString("g")</td>
+        <td class="d-none d-lg-table-cell">@book.Author</td>
+        <td>@book.LastUpdated.ToString("d")</td>
         <td>
-          <a asp-action="Edit" asp-route-id="@book.BookId" class="btn btn-outline-primary">Edit</a>
+          <a asp-action="Edit" asp-route-id="@book.BookId"
+             class="btn btn-outline-primary"><i class="fas fa-edit"></i></a>
           @if (book.EBookFileId != null)
           {
             <a asp-controller="Files" asp-action="Download" asp-route-id="@book.EBookFileId"
-               class="btn btn-outline-primary">Download EBook</a>
+               class="btn btn-outline-primary ml-1"><i class="fas fa-file-download"></i></a>
           }
           else
           {
-            <button type="button" data-book-id="@book.BookId" class="btn btn-outline-primary create-ebook">
-              Create EBook
+            <button type="button" data-book-id="@book.BookId" class="btn btn-outline-primary create-ebook ml-1">
+              <i class="fas fa-cog"></i>
             </button>
           }
         </td>

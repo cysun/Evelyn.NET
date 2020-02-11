@@ -16,7 +16,24 @@
     {
       <li class="breadcrumb-item active">@Model.Title</li>
     }
+    <li class="ml-auto"><i class="far fa-bookmark"></i></li>
   </ol>
 </nav>
 
 @Html.Raw(ViewBag.Html.Text)
+
+@section StyleSheets{
+  <style>
+    p {
+      font-size: 150%;
+    }
+  </style>
+}
+
+@section Scripts {
+<script>
+  $(function () {
+    $("h2").addClass("d-none");
+  });
+</script>
+}
