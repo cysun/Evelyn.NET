@@ -33,6 +33,16 @@
             <li class="nav-item">
               <a class="nav-link" asp-controller="Books" asp-action="List">Books</a>
             </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="downloadDropdown" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Download
+              </a>
+              <div class="dropdown-menu" aria-labelledby="downloadDropdown">
+                <a class="dropdown-item" asp-controller="Download" asp-action="MarkdownFiles">All Markdown Files</a>
+                <a class="dropdown-item" asp-controller="Download" asp-action="BooksMetadata">All Books Metadata</a>
+              </div>
+            </li>
             <li class="nav-item">
               <a class="nav-link" asp-controller="Profile" asp-action="Edit">Profile</a>
             </li>
