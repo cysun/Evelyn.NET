@@ -21,7 +21,7 @@ namespace Evelyn.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            return User.Identity.IsAuthenticated ? RedirectToAction("List", "Bookmarks") : (IActionResult)View();
+            return User.Identity.IsAuthenticated ? RedirectToAction("List", "Books") : (IActionResult)View();
         }
 
         [HttpPost]

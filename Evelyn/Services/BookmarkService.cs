@@ -19,19 +19,30 @@ namespace Evelyn.Services
         {
             return _db.Bookmarks.Where(b => b.UserId == userId)
                 .Include(b => b.Chapter).ThenInclude(c => c.Book)
-                .OrderByDescending(b => b.Timestamp).ToList();
+                .OrderBy(b => b.IsManual).ThenByDescending(b => b.Timestamp).ToList();
         }
 
-        public Bookmark AddBookmark(int userId, int chapterId, int paragraph = 1)
+        public Bookmark SetBookmark(int userId, int chapterId, int paragraph = 1)
         {
-            var bookmark = new Bookmark
+            var bookmark = _db.Bookmarks
+                .Where(b => b.UserId == userId && b.ChapterId == chapterId && b.IsManual)
+                .SingleOrDefault();
+
+            if (bookmark == null)
             {
-                UserId = userId,
-                ChapterId = chapterId,
-                Paragraph = paragraph,
-                IsManual = true
-            };
-            _db.Bookmarks.Add(bookmark);
+                bookmark = new Bookmark
+                {
+                    UserId = userId,
+                    ChapterId = chapterId,
+                    Paragraph = paragraph,
+                    IsManual = true
+                };
+                _db.Bookmarks.Add(bookmark);
+            }
+            else
+            {
+                bookmark.Paragraph = paragraph;
+            }
             _db.SaveChanges();
             return bookmark;
         }
@@ -43,7 +54,14 @@ namespace Evelyn.Services
             _db.SaveChanges();
         }
 
-        public void AutoBookmark(int userId, int bookId, int chapterId, int paragraph = 1)
+        public Bookmark GetAutoBookmark(int userId, int bookId)
+        {
+            return _db.Bookmarks.Include(b => b.Chapter)
+                .Where(b => b.UserId == userId && b.Chapter.BookId == bookId && b.IsManual == false)
+                .SingleOrDefault();
+        }
+
+        public void SetAutoBookmark(int userId, int bookId, int chapterId, int paragraph = 1)
         {
             var bookmark = _db.Bookmarks.Include(b => b.Chapter)
                 .Where(b => b.UserId == userId && b.Chapter.BookId == bookId && b.IsManual == false)

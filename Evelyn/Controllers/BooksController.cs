@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Security.Claims;
 using System.Text;
 using Evelyn.Models;
 using Evelyn.Services;
@@ -14,12 +14,15 @@ namespace Evelyn.Controllers
         private readonly FileService _fileService;
         private readonly BookService _bookService;
         private readonly EBookService _ebookService;
+        private readonly BookmarkService _bookmarkService;
 
-        public BooksController(FileService fileService, BookService bookService, EBookService ebookService)
+        public BooksController(FileService fileService, BookService bookService,
+            EBookService ebookService, BookmarkService bookmarkService)
         {
             _fileService = fileService;
             _bookService = bookService;
             _ebookService = ebookService;
+            _bookmarkService = bookmarkService;
         }
 
         public IActionResult List()
@@ -29,11 +32,17 @@ namespace Evelyn.Controllers
 
         public IActionResult View(int id)
         {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var bookmark = _bookmarkService.GetAutoBookmark(userId, id);
+            if (bookmark != null)
+                return RedirectToAction("View", "Chapters", new
+                {
+                    id = bookmark.ChapterId,
+                    paragraph = bookmark.Paragraph
+                });
+
             var book = _bookService.GetBook(id);
-            if (book.Chapters.Count > 1)
-                return View(book);
-            else
-                return RedirectToAction("View", "Chapters", new { id = book.Chapters[0].Id });
+            return RedirectToAction("View", "Chapters", new { id = book.Chapters[0].Id });
         }
 
         [HttpGet]

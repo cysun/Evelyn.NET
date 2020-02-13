@@ -9,11 +9,10 @@
     <li class="breadcrumb-item"><a asp-controller="Books" asp-action="List">Books</a></li>
     @if (Model.Book.ChaptersCount > 1)
     {
-      <li class="breadcrumb-item"><a asp-controller="Books" asp-action="View" asp-route-id="@Model.Book.Id">@Model.Book.Title</a></li>
+      <li class="breadcrumb-item"><a asp-action="List" asp-route-bookId="@Model.Book.Id">@Model.Book.Title</a></li>
     }
     <li class="breadcrumb-item active">@Model.Name</li>
     <li class="ml-auto"><a asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit"></i></a></li>
-    <li class="ml-4"><i class="far fa-bookmark"></i></li>
   </ol>
 </nav>
 
@@ -51,6 +50,24 @@
             paragraph: $("p:in-viewport").first().attr("data-index")
           }
         });
+      });
+
+      $(document).keyup(function (event) {
+        if (event.key == "Escape") {
+          if (@Model.Book.ChaptersCount > 1)
+            window.location.href = "@Context.Request.PathBase/Chapters/List?bookId=@Model.BookId";
+          else
+            window.location.href = "@Context.Request.PathBase/Books/List";
+        }
+        else if (event.ctrlKey && event.key == "b") {
+          $.ajax({
+            url: "@Context.Request.PathBase/Bookmarks/Set",
+            data: {
+              chapterId: @Model.Id,
+              paragraph: $("p:in-viewport").first().attr("data-index")
+            }
+          });
+        }
       });
     });
   </script>

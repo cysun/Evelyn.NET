@@ -20,10 +20,10 @@ namespace Evelyn.Controllers
             return View(bookmarkService.GetBookmarks(int.Parse(userId)));
         }
 
-        public IActionResult Add(int chapterId, int paragraph = 1)
+        public IActionResult Set(int chapterId, int paragraph = 1)
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            bookmarkService.AddBookmark(userId, chapterId, paragraph);
+            bookmarkService.SetBookmark(userId, chapterId, paragraph);
             return Ok();
         }
 
@@ -36,7 +36,7 @@ namespace Evelyn.Controllers
         public IActionResult AutoBookmark(int bookId, int chapterId, int paragraph = 1)
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            bookmarkService.AutoBookmark(userId, bookId, chapterId, paragraph);
+            bookmarkService.SetAutoBookmark(userId, bookId, chapterId, paragraph);
             return Ok();
         }
     }

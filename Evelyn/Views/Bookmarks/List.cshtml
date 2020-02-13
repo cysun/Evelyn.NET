@@ -22,6 +22,10 @@
         <td>
           <a asp-controller="Chapters" asp-action="View" asp-route-id="@bookmark.Chapter.Id"
              asp-route-paragraph="@bookmark.Paragraph">@bookmark.Chapter.Name</a>
+          @if (!bookmark.IsManual)
+          {
+            <span class="badge badge-secondary ml-2">auto</span>
+          }
         </td>
         <td>
           <a asp-controller="Bookmarks" asp-action="Delete",
