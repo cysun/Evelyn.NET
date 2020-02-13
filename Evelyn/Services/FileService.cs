@@ -5,27 +5,21 @@ namespace Evelyn.Services
 {
     public class FileService
     {
-        private readonly AppDbContext db;
+        private readonly AppDbContext _db;
 
         public FileService(AppDbContext db)
         {
-            this.db = db;
+            _db = db;
         }
 
-        public Models.File GetFile(int? fileId)
+        public File GetFile(int? fileId)
         {
             if (fileId == null) throw new ArgumentNullException();
-            return db.Files.Find(fileId);
+            return _db.Files.Find(fileId);
         }
 
-        public void AddFile(File file)
-        {
-            db.Files.Add(file);
-        }
+        public void AddFile(File file) => _db.Files.Add(file);
 
-        public void SaveChanges()
-        {
-            db.SaveChanges();
-        }
+        public void SaveChanges() => _db.SaveChanges();
     }
 }

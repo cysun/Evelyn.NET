@@ -7,31 +7,31 @@ namespace Evelyn.Services
 {
     public class BookmarkService
     {
-        private readonly AppDbContext db;
+        private readonly AppDbContext _db;
 
         public BookmarkService(AppDbContext db)
         {
-            this.db = db;
+            _db = db;
         }
 
         public List<Bookmark> GetBookmarks(int userId)
         {
-            return db.Bookmarks.Where(b => b.UserId == userId).Include(b => b.Book)
+            return _db.Bookmarks.Where(b => b.UserId == userId)
+                .Include(b => b.Chapter).ThenInclude(c => c.Book)
                 .OrderByDescending(b => b.Timestamp).ToList();
         }
 
-        public Bookmark GetBookmark(int userId, int bookId)
+        public Bookmark GetAutoBookmark(int userId, int bookId)
         {
-            return db.Bookmarks.Where(b => b.UserId == userId && b.BookId == bookId)
+            return _db.Bookmarks.Include(b => b.Chapter)
+                .Where(b => b.UserId == userId && b.Chapter.BookId == bookId && b.IsManual == false)
                 .SingleOrDefault();
         }
 
-        public void DeleteBookmark(int bookmarkId)
-        {
-            db.Bookmarks.Remove(new Bookmark { BookmarkId = bookmarkId });
-            db.SaveChanges();
-        }
+        public void AddBookmark(Bookmark bookmark) => _db.Bookmarks.Add(bookmark);
 
-        public void SaveChanges() => db.SaveChanges();
+        public void DeleteBookmark(int id) => _db.Bookmarks.Remove(new Bookmark { Id = id });
+
+        public void SaveChanges() => _db.SaveChanges();
     }
 }

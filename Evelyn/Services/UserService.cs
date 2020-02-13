@@ -8,11 +8,11 @@ namespace Evelyn.Services
 {
     public class UserService
     {
-        private readonly AppDbContext db;
+        private readonly AppDbContext _db;
 
         public UserService(AppDbContext db)
         {
-            this.db = db;
+            _db = db;
         }
 
         public ClaimsIdentity Authenticate(string username, string password)
@@ -23,7 +23,7 @@ namespace Evelyn.Services
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Name)
             };
             return new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -31,12 +31,9 @@ namespace Evelyn.Services
 
         public User GetUser(string name)
         {
-            return db.Users.Where(u => u.Name.ToUpper() == name.ToUpper()).SingleOrDefault();
+            return _db.Users.Where(u => u.Name.ToUpper() == name.ToUpper()).SingleOrDefault();
         }
 
-        public void SaveChanges()
-        {
-            db.SaveChanges();
-        }
+        public void SaveChanges() => _db.SaveChanges();
     }
 }

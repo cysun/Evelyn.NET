@@ -7,36 +7,30 @@ namespace Evelyn.Services
 {
     public class BookService
     {
-        private readonly AppDbContext db;
+        private readonly AppDbContext _db;
 
         public BookService(AppDbContext db)
         {
-            this.db = db;
+            _db = db;
         }
 
         public List<Book> GetBooks()
         {
-            return db.Books.OrderByDescending(b => b.LastUpdated).ToList();
+            return _db.Books.OrderByDescending(b => b.LastUpdated).ToList();
         }
 
-        public Book GetBook(int bookId)
+        public Book GetBook(int id)
         {
-            var book = db.Books.Where(b => b.BookId == bookId).Include(b => b.Chapters).SingleOrDefault();
+            var book = _db.Books.Where(b => b.Id == id).Include(b => b.Chapters).SingleOrDefault();
 
-	        if (book != null && book.Chapters.Count > 1)
+            if (book != null && book.Chapters.Count > 1)
                 book.Chapters = book.Chapters.OrderBy(c => c.Number).ToList();
 
             return book;
         }
 
-        public void AddBook(Book book)
-        {
-            db.Books.Add(book);
-        }
+        public void AddBook(Book book) => _db.Books.Add(book);
 
-        public void SaveChanges()
-        {
-            db.SaveChanges();
-        }
+        public void SaveChanges() => _db.SaveChanges();
     }
 }

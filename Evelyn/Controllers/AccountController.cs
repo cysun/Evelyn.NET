@@ -11,10 +11,11 @@ namespace Evelyn.Controllers
     [AllowAnonymous]
     public class AccountController : Controller
     {
-        private readonly UserService userService;
+        private readonly UserService _userService;
+
         public AccountController(UserService userService)
         {
-            this.userService = userService;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -26,7 +27,7 @@ namespace Evelyn.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string username, string password, string returnUrl)
         {
-            var identity = userService.Authenticate(username, password);
+            var identity = _userService.Authenticate(username, password);
             if (identity == null)
                 return RedirectToAction(nameof(Login));
 

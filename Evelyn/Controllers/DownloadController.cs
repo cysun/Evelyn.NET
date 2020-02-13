@@ -41,7 +41,7 @@ namespace Evelyn.Controllers
 
         public IActionResult BooksMetadata()
         {
-            var books = _bookService.GetBooks().OrderBy(b => b.BookId);
+            var books = _bookService.GetBooks().OrderBy(b => b.Id);
             // See https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-how-to
             var options = new JsonSerializerOptions
             {

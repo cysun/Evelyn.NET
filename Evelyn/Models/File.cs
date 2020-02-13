@@ -12,7 +12,7 @@ namespace Evelyn.Models
 {
     public class File
     {
-        public int FileId { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
         public string ContentType { get; set; }

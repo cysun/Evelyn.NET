@@ -12,22 +12,22 @@
 
 <table class="table">
   <thead>
-    <tr>
-      <th>Book</th>
-      <th>Author</th>
-      <th>Last Viewed</th>
-      <th></th>
-    </tr>
+    <tr><th>Book</th><th>Chapter</th><th></th></tr>
   </thead>
   <tbody>
     @foreach (var bookmark in Model)
     {
       <tr>
-        <td>@bookmark.Book.Title</td>
-        <td>@bookmark.Book.Author</td>
-        <td>@bookmark.Timestamp.ToString("g")</td>
         <td>
-          <button class="btn btn-danger">Delete</button>
+          <a asp-controller="Books" asp-action="View"
+             asp-route-id="@bookmark.Chapter.Book.Id">@bookmark.Chapter.Book.Title</a>
+        </td>
+        <td>
+          <a asp-controller="Chapters" asp-action="View" 
+             asp-route-id="@bookmark.Chapter.Id">@bookmark.Chapter.Name</a>
+        </td>
+        <td>
+          <i class="fas fa-trash-alt"></i>
         </td>
       </tr>
     }

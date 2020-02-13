@@ -4,7 +4,6 @@ using System.IO;
 using System.Text;
 using Evelyn.Models;
 using Evelyn.Services;
-using Markdig;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,29 +11,29 @@ namespace Evelyn.Controllers
 {
     public class BooksController : Controller
     {
-        private readonly FileService fileService;
-        private readonly BookService bookService;
-        private readonly EBookService ebookService;
+        private readonly FileService _fileService;
+        private readonly BookService _bookService;
+        private readonly EBookService _ebookService;
 
         public BooksController(FileService fileService, BookService bookService, EBookService ebookService)
         {
-            this.fileService = fileService;
-            this.bookService = bookService;
-            this.ebookService = ebookService;
+            _fileService = fileService;
+            _bookService = bookService;
+            _ebookService = ebookService;
         }
 
         public IActionResult List()
         {
-            return View(bookService.GetBooks());
+            return View(_bookService.GetBooks());
         }
 
         public IActionResult View(int id)
         {
-            var book = bookService.GetBook(id);
+            var book = _bookService.GetBook(id);
             if (book.Chapters.Count > 1)
                 return View(book);
             else
-                return LocalRedirect($"{Request.PathBase}/Book/{id}/Chapter/1");
+                return RedirectToAction("View", "Chapters", new { id = book.Chapters[0].Id });
         }
 
         [HttpGet]
@@ -55,22 +54,23 @@ namespace Evelyn.Controllers
                 book.ThumbnailFile = Models.File.ImageToThumbnail(book.CoverFile);
             }
 
-            bookService.AddBook(book);
-            bookService.SaveChanges();
+            book.ChaptersCount = book.Chapters.Count;
+            _bookService.AddBook(book);
+            _bookService.SaveChanges();
 
-            return RedirectToAction(nameof(View), new { id = book.BookId });
+            return RedirectToAction(nameof(View), new { id = book.Id });
         }
 
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            return View(bookService.GetBook(id));
+            return View(_bookService.GetBook(id));
         }
 
         [HttpPost]
         public IActionResult Edit(int id, Book update, IFormFile content, IFormFile cover, bool isAppending)
         {
-            var book = bookService.GetBook(id);
+            var book = _bookService.GetBook(id);
             book.Title = update.Title;
             book.Author = update.Author;
             book.Notes = update.Notes;
@@ -88,52 +88,20 @@ namespace Evelyn.Controllers
                 book.ThumbnailFile = Models.File.ImageToThumbnail(book.CoverFile);
             }
 
+            book.ChaptersCount = book.Chapters.Count;
             book.LastUpdated = DateTime.Now;
-            bookService.SaveChanges();
+            _bookService.SaveChanges();
 
-            return RedirectToAction(nameof(View), new { id = book.BookId });
-        }
-
-        [HttpGet("/Book/{bookId}/Chapter/{chapterNumber}")]
-        public IActionResult ViewChapter(int bookId, int chapterNumber)
-        {
-            var book = bookService.GetBook(bookId);
-            var chapter = book.Chapters[chapterNumber - 1];
-            ViewBag.Chapter = chapter;
-            ViewBag.Html = fileService.GetFile(chapter.HtmlFileId);
-            return View(book);
-        }
-
-        [HttpGet("/Book/{bookId}/Chapter/{chapterNumber}/Edit")]
-        public IActionResult EditChapter(int bookId, int chapterNumber)
-        {
-            var book = bookService.GetBook(bookId);
-            var chapter = book.Chapters[chapterNumber - 1];
-            ViewBag.Chapter = chapter;
-            ViewBag.Markdown = fileService.GetFile(chapter.MarkdownFileId);
-            return View(book);
-        }
-
-        [HttpPost("/Book/{bookId}/Chapter/{chapterNumber}/Edit")]
-        public IActionResult EditChapter(int bookId, int chapterNumber, string text)
-        {
-            var book = bookService.GetBook(bookId);
-            var chapter = book.Chapters[chapterNumber - 1];
-            var markdownFile = fileService.GetFile(chapter.MarkdownFileId);
-            markdownFile.Text = text;
-            var htmlFile = fileService.GetFile(chapter.HtmlFileId);
-            htmlFile.Text = Markdown.ToHtml(text);
-            fileService.SaveChanges();
-            return Redirect($"../{chapterNumber}");
+            return RedirectToAction(nameof(View), new { id = book.Id });
         }
 
         [HttpGet("/Book/{bookId}/EBook/Create")]
         public IActionResult CreateEBook(int bookId)
         {
-            var book = bookService.GetBook(bookId);
-            book.EBookFile = ebookService.CreateEPub(book);
-            bookService.SaveChanges();
-            return Ok(new { fileId = book.EBookFile.FileId });
+            var book = _bookService.GetBook(bookId);
+            book.EBookFile = _ebookService.CreateEPub(book);
+            _bookService.SaveChanges();
+            return Ok(new { fileId = book.EBookFile.Id });
         }
 
         private void processContent(Book book, Models.File markdownFile, bool IsAppending = false)
@@ -145,12 +113,11 @@ namespace Evelyn.Controllers
             }
             else
             {
-                var oldFile = fileService.GetFile(book.MarkdownFileId);
+                var oldFile = _fileService.GetFile(book.MarkdownFileId);
                 oldFile.Append(markdownFile);
-                fileService.SaveChanges();
+                _fileService.SaveChanges();
             }
 
-            var chapters = new List<Chapter>();
             string chapterName = null;
             var stringBuilder = new StringBuilder();
             using (var reader = new StreamReader(markdownFile.OpenReadStream()))

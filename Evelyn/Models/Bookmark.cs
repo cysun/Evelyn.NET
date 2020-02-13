@@ -4,18 +4,16 @@ namespace Evelyn.Models
 {
     public class Bookmark
     {
-        public int BookmarkId { get; set; }
+        public int Id { get; set; }
 
         public int UserId { get; set; }
         public User User { get; set; }
 
-        public int BookId { get; set; }
-        public Book Book { get; set; }
-
-        public int ChapterNumber { get; set; }
-
-        public int Position { get; set; }
+        public int ChapterId { get; set; }
+        public Chapter Chapter { get; set; }
 
         public DateTime Timestamp { get; set; } = DateTime.Now;
+
+        public bool IsManual { get; set; } = false;
     }
 }
