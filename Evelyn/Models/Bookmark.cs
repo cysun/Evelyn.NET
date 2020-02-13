@@ -12,6 +12,8 @@ namespace Evelyn.Models
         public int ChapterId { get; set; }
         public Chapter Chapter { get; set; }
 
+        public int Paragraph { get; set; } = 1;
+
         public DateTime Timestamp { get; set; } = DateTime.Now;
 
         public bool IsManual { get; set; } = false;

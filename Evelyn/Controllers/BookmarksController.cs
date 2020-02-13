@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Evelyn.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,10 +20,24 @@ namespace Evelyn.Controllers
             return View(bookmarkService.GetBookmarks(int.Parse(userId)));
         }
 
-        public IActionResult Delete(int bookmarkId)
+        public IActionResult Add(int chapterId, int paragraph = 1)
         {
-            bookmarkService.DeleteBookmark(bookmarkId);
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            bookmarkService.AddBookmark(userId, chapterId, paragraph);
+            return Ok();
+        }
+
+        public IActionResult Delete(int id)
+        {
+            bookmarkService.DeleteBookmark(id);
             return RedirectToAction(nameof(List));
+        }
+
+        public IActionResult AutoBookmark(int bookId, int chapterId, int paragraph = 1)
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            bookmarkService.AutoBookmark(userId, bookId, chapterId, paragraph);
+            return Ok();
         }
     }
 }

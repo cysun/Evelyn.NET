@@ -24,6 +24,13 @@
         "cyborg/bootstrap.min.css",
         "darkly/bootstrap.min.css"
       ]
+    },
+    {
+      "library": "is-in-viewport@3.0.4",
+      "destination": "wwwroot/lib/is-in-viewport/",
+      "files": [
+        "isInViewport.min.js"
+      ]
     }
   ]
 }

@@ -8,10 +8,10 @@
   @RenderSection("StyleSheets", required: false)
   <script defer src="~/lib/fontawesome-5.12.1/all.min.js"></script>
 </head>
-<body>
+<body class="container" style="padding-top: 60px;">
 
   <header>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
       @if (User.Identity.IsAuthenticated)
       {
         <a class="navbar-brand" asp-controller="Bookmarks" asp-action="List">Evelyn Digital Library</a>
@@ -55,13 +55,11 @@
     </nav>
   </header>
 
-  <div class="container">
-    <main role="main">
-      <div class="container p-3">
-        @RenderBody()
-      </div>
-    </main>
-  </div>
+  <main role="main">
+    <div class="container p-3">
+      @RenderBody()
+    </div>
+  </main>
 
   <footer>
     <div class="container text-center">

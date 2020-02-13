@@ -18,16 +18,14 @@
     @foreach (var bookmark in Model)
     {
       <tr>
+        <td>@bookmark.Chapter.Book.Title</td>
         <td>
-          <a asp-controller="Books" asp-action="View"
-             asp-route-id="@bookmark.Chapter.Book.Id">@bookmark.Chapter.Book.Title</a>
+          <a asp-controller="Chapters" asp-action="View" asp-route-id="@bookmark.Chapter.Id"
+             asp-route-paragraph="@bookmark.Paragraph">@bookmark.Chapter.Name</a>
         </td>
         <td>
-          <a asp-controller="Chapters" asp-action="View" 
-             asp-route-id="@bookmark.Chapter.Id">@bookmark.Chapter.Name</a>
-        </td>
-        <td>
-          <i class="fas fa-trash-alt"></i>
+          <a asp-controller="Bookmarks" asp-action="Delete",
+             asp-route-id="@bookmark.Id"><i class="fas fa-trash-alt"></i></a>
         </td>
       </tr>
     }

@@ -28,9 +28,30 @@
 }
 
 @section Scripts {
+  <script src="~/lib/is-in-viewport/isInViewport.min.js"></script>
+  <script src="~/lib/scrollstop/jquery.scrollstop.js"></script>
   <script>
     $(function () {
       $("h2").addClass("d-none");
+
+      var index = 1;
+      $("p").each(function () {
+        $(this).attr("data-index", index++);
+      });
+
+      if( @ViewBag.Paragraph > 1 )
+        $(window).scrollTop($("p[data-index='@ViewBag.Paragraph']").offset().top);
+
+      $(window).on("scrollstop", function () {
+        $.ajax({
+          url: "@Context.Request.PathBase/Bookmarks/AutoBookmark",
+          data: {
+            bookId: @Model.BookId,
+            chapterId: @Model.Id,
+            paragraph: $("p:in-viewport").first().attr("data-index")
+          }
+        });
+      });
     });
   </script>
 }

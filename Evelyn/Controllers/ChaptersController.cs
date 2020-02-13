@@ -1,5 +1,4 @@
-﻿using System;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Evelyn.Services;
 using Markdig;
 using Microsoft.AspNetCore.Mvc;
@@ -20,28 +19,14 @@ namespace Evelyn.Controllers
             _bookmarkService = bookmarkService;
         }
 
-        public IActionResult View(int id)
+        public IActionResult View(int id, int paragraph = 1)
         {
             var chapter = _chapterService.GetChapter(id);
 
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            var bookmark = _bookmarkService.GetAutoBookmark(userId, chapter.Book.Id);
-            if (bookmark == null)
-            {
-                bookmark = new Models.Bookmark
-                {
-                    UserId = userId,
-                    ChapterId = chapter.Id
-                };
-                _bookmarkService.AddBookmark(bookmark);
-            }
-            else
-            {
-                bookmark.ChapterId = chapter.Id;
-                bookmark.Timestamp = DateTime.Now;
-            }
-            _bookmarkService.SaveChanges();
+            _bookmarkService.AutoBookmark(userId, chapter.BookId, chapter.Id);
 
+            ViewBag.Paragraph = paragraph;
             ViewBag.Html = _fileService.GetFile(chapter.HtmlFileId);
             return View(chapter);
         }
