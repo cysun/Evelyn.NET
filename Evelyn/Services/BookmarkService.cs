@@ -22,6 +22,12 @@ namespace Evelyn.Services
                 .OrderBy(b => b.IsManual).ThenByDescending(b => b.Timestamp).ToList();
         }
 
+        public Bookmark GetBookmark(int userId, int chapterId)
+        {
+            return _db.Bookmarks.Where(b => b.UserId == userId && b.ChapterId == chapterId)
+                .OrderBy(b => b.IsManual).FirstOrDefault();
+        }
+
         public Bookmark SetBookmark(int userId, int chapterId, int paragraph = 1)
         {
             var bookmark = _db.Bookmarks

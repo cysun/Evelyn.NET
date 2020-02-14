@@ -27,7 +27,6 @@ CREATE TABLE "Books" (
     "Title" text NOT NULL,
     "Author" text NULL,
     "Notes" text NULL,
-    "ChaptersCount" integer NOT NULL,
     "MarkdownFileId" integer NOT NULL,
     "EBookFileId" integer NULL,
     "CoverFileId" integer NULL,
@@ -85,5 +84,5 @@ CREATE INDEX "IX_Chapters_HtmlFileId" ON "Chapters" ("HtmlFileId");
 CREATE INDEX "IX_Chapters_MarkdownFileId" ON "Chapters" ("MarkdownFileId");
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20200213183214_InitialSchema', '3.1.1');
+VALUES ('20200214013002_InitialSchema', '3.1.1');
 

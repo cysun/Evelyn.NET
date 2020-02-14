@@ -7,9 +7,9 @@
 <nav>
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a asp-controller="Books" asp-action="List">Books</a></li>
-    @if (Model.Book.ChaptersCount > 1)
+    @if (Model.Book.Chapters.Count > 1)
     {
-      <li class="breadcrumb-item"><a asp-controller="Books" asp-action="View" asp-route-id="@Model.Book.Id">@Model.Book.Title</a></li>
+      <li class="breadcrumb-item"><a asp-action="List" asp-route-bookId="@Model.Book.Id">@Model.Book.Title</a></li>
     }
     <li class="breadcrumb-item"><a asp-action="View" asp-route-id="@Model.Id">@Model.Name</a></li>
     <li class="breadcrumb-item active">Edit</li>
@@ -21,7 +21,7 @@
     <textarea class="form-control" rows="10" name="text">@Html.Raw(ViewBag.Markdown.Text)</textarea>
   </div>
   <a asp-action="View" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Cancel</a>
-  <button type="submit" class="btn btn-outline-primary">Save</button>
+  <button type="submit" class="btn btn-outline-dark ml-2">Save</button>
 </form>
 
 @section StyleSheets{

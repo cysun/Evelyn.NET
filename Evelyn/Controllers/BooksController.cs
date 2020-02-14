@@ -63,7 +63,6 @@ namespace Evelyn.Controllers
                 book.ThumbnailFile = Models.File.ImageToThumbnail(book.CoverFile);
             }
 
-            book.ChaptersCount = book.Chapters.Count;
             _bookService.AddBook(book);
             _bookService.SaveChanges();
 
@@ -97,7 +96,6 @@ namespace Evelyn.Controllers
                 book.ThumbnailFile = Models.File.ImageToThumbnail(book.CoverFile);
             }
 
-            book.ChaptersCount = book.Chapters.Count;
             book.LastUpdated = DateTime.Now;
             _bookService.SaveChanges();
 

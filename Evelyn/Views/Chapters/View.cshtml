@@ -2,12 +2,14 @@
 
 @{
   ViewData["Title"] = "View Chapter";
+  ViewData["NextChapterId"] = Model.Number < Model.Book.Chapters.Count ? Model.Book.Chapters[Model.Number].Id : 0;
+  ViewData["PrevChapterId"] = Model.Number > 1 ? Model.Book.Chapters[Model.Number - 1].Id : 0;
 }
 
 <nav>
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a asp-controller="Books" asp-action="List">Books</a></li>
-    @if (Model.Book.ChaptersCount > 1)
+    @if (Model.Book.Chapters.Count > 1)
     {
       <li class="breadcrumb-item"><a asp-action="List" asp-route-bookId="@Model.Book.Id">@Model.Book.Title</a></li>
     }
@@ -54,7 +56,7 @@
 
       $(document).keyup(function (event) {
         if (event.key == "Escape") {
-          if (@Model.Book.ChaptersCount > 1)
+          if (@Model.Book.Chapters.Count > 1)
             window.location.href = "@Context.Request.PathBase/Chapters/List?bookId=@Model.BookId";
           else
             window.location.href = "@Context.Request.PathBase/Books/List";
@@ -67,6 +69,12 @@
               paragraph: $("p:in-viewport").first().attr("data-index")
             }
           });
+        }
+        else if (event.which == 39 && @ViewData["NextChapterId"]) {
+          window.location.href = "./" + @ViewData["NextChapterId"];
+        }
+        else if (event.which == 37 && @ViewData["PrevChapterId"]) {
+          window.location.href = "./" + @ViewData["PrevChapterId"];
         }
       });
     });

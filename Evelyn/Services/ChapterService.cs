@@ -15,7 +15,9 @@ namespace Evelyn.Services
 
         public Chapter GetChapter(int id)
         {
-            return _db.Chapters.Where(c => c.Id == id).Include(c => c.Book).SingleOrDefault();
+            return _db.Chapters.Where(c => c.Id == id)
+                .Include(c => c.Book).ThenInclude(b => b.Chapters)
+                .SingleOrDefault();
         }
 
         public void SaveChanges() => _db.SaveChanges();

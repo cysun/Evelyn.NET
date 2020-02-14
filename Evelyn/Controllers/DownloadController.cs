@@ -20,7 +20,17 @@ namespace Evelyn.Controllers
             _fileService = fileService;
         }
 
-        public IActionResult MarkdownFiles()
+        private void addToArchive(ZipArchive archive, int fileId)
+        {
+            var file = _fileService.GetFile(fileId);
+            var entry = archive.CreateEntry(file.Name);
+            using (StreamWriter writer = new StreamWriter(entry.Open()))
+            {
+                writer.Write(file.Text);
+            }
+        }
+
+        public IActionResult AllFiles()
         {
             var buffer = new MemoryStream();
             ZipArchive archive = new ZipArchive(buffer, ZipArchiveMode.Create);
@@ -28,18 +38,15 @@ namespace Evelyn.Controllers
             var books = _bookService.GetBooks();
             foreach (var book in books)
             {
-                var file = _fileService.GetFile(book.MarkdownFileId);
-                var entry = archive.CreateEntry(file.Name);
-                using (StreamWriter writer = new StreamWriter(entry.Open()))
-                {
-                    writer.Write(file.Text);
-                }
+                addToArchive(archive, book.MarkdownFileId);
+                if (book.CoverFileId != null)
+                    addToArchive(archive, (int)book.CoverFileId);
             }
 
-            return File(buffer.ToArray(), "application/zip", "AllMarkdownFiles.zip");
+            return File(buffer.ToArray(), "application/zip", "AllFiles.zip");
         }
 
-        public IActionResult BooksMetadata()
+        public IActionResult AllMetadata()
         {
             var books = _bookService.GetBooks().OrderBy(b => b.Id);
             // See https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-how-to
@@ -49,7 +56,7 @@ namespace Evelyn.Controllers
                 WriteIndented = true,
             };
             return File(JsonSerializer.SerializeToUtf8Bytes(books, options),
-                "application/json", "AllBooksMetadata.json");
+                "application/json", "AllMetadata.json");
         }
     }
 }

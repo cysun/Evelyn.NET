@@ -31,9 +31,9 @@ namespace Evelyn.Controllers
             var chapter = _chapterService.GetChapter(id);
 
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            _bookmarkService.SetAutoBookmark(userId, chapter.BookId, chapter.Id);
+            var bookmark = _bookmarkService.GetBookmark(userId, id);
 
-            ViewBag.Paragraph = paragraph;
+            ViewBag.Paragraph = paragraph == 1 && bookmark != null ? bookmark.Paragraph : paragraph;
             ViewBag.Html = _fileService.GetFile(chapter.HtmlFileId);
             return View(chapter);
         }
