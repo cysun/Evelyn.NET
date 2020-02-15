@@ -20,13 +20,23 @@ namespace Evelyn.Controllers
             _fileService = fileService;
         }
 
-        private void addToArchive(ZipArchive archive, int fileId)
+        private void addToArchive(ZipArchive archive, int fileId, bool isText = true)
         {
             var file = _fileService.GetFile(fileId);
             var entry = archive.CreateEntry(file.Name);
-            using (StreamWriter writer = new StreamWriter(entry.Open()))
+            if (isText)
             {
-                writer.Write(file.Text);
+                using (StreamWriter writer = new StreamWriter(entry.Open()))
+                {
+                    writer.Write(file.Text);
+                }
+            }
+            else
+            {
+                using (BinaryWriter writer = new BinaryWriter(entry.Open()))
+                {
+                    writer.Write(file.Content);
+                }
             }
         }
 
@@ -40,7 +50,7 @@ namespace Evelyn.Controllers
             {
                 addToArchive(archive, book.MarkdownFileId);
                 if (book.CoverFileId != null)
-                    addToArchive(archive, (int)book.CoverFileId);
+                    addToArchive(archive, (int)book.CoverFileId, false);
             }
 
             return File(buffer.ToArray(), "application/zip", "AllFiles.zip");
