@@ -36,17 +36,7 @@
         <td>@book.LastUpdated.ToString("d")</td>
         <td>
           <a asp-action="Edit" asp-route-id="@book.Id" class="mr-3"><i class="fas fa-edit"></i></a>
-          @if (book.EBookFileId != null)
-          {
-            <a asp-controller="Files" asp-action="Download" asp-route-id="@book.EBookFileId"
-               class="ml-1"><i class="fas fa-file-download"></i></a>
-          }
-          else
-          {
-            <a href="javacript:void(0)">
-              <i class="fas fa-cog create-ebook" data-book-id="@book.Id"></i>
-            </a>
-          }
+          <a asp-action="EBook" asp-route-id="@book.Id"><i class="fas fa-book"></i></a>
         </td>
       </tr>
     }
@@ -57,19 +47,6 @@
   <script>
     $(function () {
       $("td").addClass("align-middle");
-      $(".create-ebook").click(function () {
-        var bookId = $(this).attr("data-book-id");
-        var createEBook = $(this);
-        $(this).html("<span class='spinner-border spinner-border-sm'></span> Create EBook");
-        $(this).prop("disabled", true);
-        $.ajax({
-          url: "@Context.Request.PathBase/Book/" + bookId + "/EBook/Create",
-          success: function (result) {
-            var downloadEBook = $("<a href='@Context.Request.PathBase/Files/Download/" + result.fileId + "'>Download EBook</a>").addClass("btn btn-primary");
-            createEBook.replaceWith(downloadEBook);
-          }
-        });
-      })
     });
   </script>
 }

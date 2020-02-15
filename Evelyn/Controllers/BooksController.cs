@@ -102,6 +102,21 @@ namespace Evelyn.Controllers
             return RedirectToAction(nameof(View), new { id = book.Id });
         }
 
+        public IActionResult EBook(int id)
+        {
+            var book = _bookService.GetBook(id);
+            var file = book.EBookFileId != null ? _fileService.GetFile(book.EBookFileId)
+                : _ebookService.CreateEPub(book);
+
+            if (book.EBookFileId == null)
+            {
+                book.EBookFile = file;
+                _bookService.SaveChanges();
+            }
+
+            return File(file.OpenReadStream(), file.ContentType, file.Name);
+        }
+
         [HttpGet("/Book/{bookId}/EBook/Create")]
         public IActionResult CreateEBook(int bookId)
         {
