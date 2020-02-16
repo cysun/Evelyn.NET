@@ -31,6 +31,13 @@
       "files": [
         "isInViewport.min.js"
       ]
+    },
+    {
+      "library": "hammer.js@2.0.8",
+      "destination": "wwwroot/lib/hammer.js/",
+      "files": [
+        "hammer.min.js"
+      ]
     }
   ]
 }

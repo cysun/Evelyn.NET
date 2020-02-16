@@ -3,7 +3,7 @@
 @{
   ViewData["Title"] = "View Chapter";
   ViewData["NextChapterId"] = Model.Number < Model.Book.Chapters.Count ? Model.Book.Chapters[Model.Number].Id : 0;
-  ViewData["PrevChapterId"] = Model.Number > 1 ? Model.Book.Chapters[Model.Number - 1].Id : 0;
+  ViewData["PrevChapterId"] = Model.Number > 1 ? Model.Book.Chapters[Model.Number - 2].Id : 0;
 }
 
 <nav>
@@ -18,7 +18,9 @@
   </ol>
 </nav>
 
-@Html.Raw(ViewBag.Html.Text)
+<div id="content">
+  @Html.Raw(ViewBag.Html.Text)
+</div>
 
 @section StyleSheets{
   <style>
@@ -31,6 +33,7 @@
 @section Scripts {
   <script src="~/lib/is-in-viewport/isInViewport.min.js"></script>
   <script src="~/lib/scrollstop/jquery.scrollstop.js"></script>
+  <script src="~/lib/hammer.js/hammer.min.js"></script>
   <script>
     $(function () {
       $("h2").addClass("d-none");
@@ -61,7 +64,7 @@
           else
             window.location.href = "@Context.Request.PathBase/Books/List";
         }
-        else if (event.ctrlKey && event.key == "b") {
+        else if (event.key == "b") {
           $.ajax({
             url: "@Context.Request.PathBase/Bookmarks/Set",
             data: {
@@ -70,10 +73,20 @@
             }
           });
         }
-        else if (event.which == 39 && @ViewData["NextChapterId"]) {
+        else if (event.which == 39 && @ViewData["NextChapterId"]) { // right arrow
           window.location.href = "./" + @ViewData["NextChapterId"];
         }
-        else if (event.which == 37 && @ViewData["PrevChapterId"]) {
+        else if (event.which == 37 && @ViewData["PrevChapterId"]) { // left arrow
+          window.location.href = "./" + @ViewData["PrevChapterId"];
+        }
+      });
+
+      var hammer = new Hammer(document.getElementById("content"));
+      hammer.on("swipe", function (event) {
+        if (event.offsetDirection == 2 && @ViewData["NextChapterId"]) { // left swipe
+          window.location.href = "./" + @ViewData["NextChapterId"];
+        }
+        else if (event.offsetDirection == 4 && @ViewData["PrevChapterId"]) { // right swipe
           window.location.href = "./" + @ViewData["PrevChapterId"];
         }
       });
