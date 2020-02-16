@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Security.Claims;
 using System.Text;
@@ -83,21 +84,36 @@ namespace Evelyn.Controllers
             book.Author = update.Author;
             book.Notes = update.Notes;
 
+            var fileIdsToDelete = new List<int>();
+
             if (content != null)
             {
                 var markdownFile = Models.File.FromUploadedFile(content);
-                processContent(book, markdownFile, isAppending);
-                book.EBookFileId = null;
+                processContent(book, markdownFile, isAppending, fileIdsToDelete);
             }
 
             if (cover != null)
             {
+                if (book.CoverFileId != null)
+                {
+                    fileIdsToDelete.Add((int)book.CoverFileId);
+                    fileIdsToDelete.Add((int)book.ThumbnailFileId);
+                }
                 book.CoverFile = Models.File.FromUploadedFile(cover);
                 book.ThumbnailFile = Models.File.ImageToThumbnail(book.CoverFile);
             }
 
+            if (book.EBookFileId != null)
+            {
+                fileIdsToDelete.Add((int)book.EBookFileId);
+                book.EBookFileId = null;
+            }
+
             book.LastUpdated = DateTime.Now;
             _bookService.SaveChanges();
+
+            if (fileIdsToDelete.Count > 0)
+                _fileService.DeleteFiles(fileIdsToDelete);
 
             return RedirectToAction(nameof(View), new { id = book.Id });
         }
@@ -117,10 +133,20 @@ namespace Evelyn.Controllers
             return File(file.OpenReadStream(), file.ContentType, file.Name);
         }
 
-        private void processContent(Book book, Models.File markdownFile, bool IsAppending = false)
+        private void processContent(Book book, Models.File markdownFile, bool IsAppending = false,
+            List<int> fileIdsToDelete = null)
         {
             if (!IsAppending)
             {
+                if (fileIdsToDelete != null)
+                {
+                    fileIdsToDelete.Add(book.MarkdownFileId);
+                    foreach (var chapter in book.Chapters)
+                    {
+                        fileIdsToDelete.Add(chapter.MarkdownFileId);
+                        fileIdsToDelete.Add(chapter.HtmlFileId);
+                    }
+                }
                 book.MarkdownFile = markdownFile;
                 book.Chapters.Clear();
             }

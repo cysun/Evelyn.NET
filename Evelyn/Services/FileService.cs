@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Evelyn.Models;
 
 namespace Evelyn.Services
@@ -18,11 +20,10 @@ namespace Evelyn.Services
             return _db.Files.Find(id);
         }
 
-        public void DeleteFile(int id)
+        public void DeleteFiles(List<int> ids)
         {
-            var file = new File { Id = id };
-            _db.Files.Attach(file);
-            _db.Files.Remove(file);
+            var filesToDelete = ids.Select(id => new File { Id = id });
+            _db.Files.RemoveRange(filesToDelete);
             _db.SaveChanges();
         }
 
