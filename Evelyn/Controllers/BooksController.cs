@@ -117,15 +117,6 @@ namespace Evelyn.Controllers
             return File(file.OpenReadStream(), file.ContentType, file.Name);
         }
 
-        [HttpGet("/Book/{bookId}/EBook/Create")]
-        public IActionResult CreateEBook(int bookId)
-        {
-            var book = _bookService.GetBook(bookId);
-            book.EBookFile = _ebookService.CreateEPub(book);
-            _bookService.SaveChanges();
-            return Ok(new { fileId = book.EBookFile.Id });
-        }
-
         private void processContent(Book book, Models.File markdownFile, bool IsAppending = false)
         {
             if (!IsAppending)

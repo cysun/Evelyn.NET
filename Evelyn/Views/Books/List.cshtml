@@ -28,7 +28,9 @@
         <td>
           @if (book.ThumbnailFileId != null)
           {
-            <img src="~/Files/View/@book.ThumbnailFileId" alt="thumbnail" />
+            <a asp-controller="Files" asp-action="View" asp-route-id="@book.CoverFileId">
+              <img src="~/Files/View/@book.ThumbnailFileId" alt="thumbnail" />
+            </a>
           }
         </td>
         <td><a asp-action="View" asp-route-id="@book.Id">@book.Title</a></td>

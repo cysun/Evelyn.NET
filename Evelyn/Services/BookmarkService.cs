@@ -55,7 +55,8 @@ namespace Evelyn.Services
 
         public void DeleteBookmark(int id)
         {
-            var bookmark = _db.Bookmarks.Find(id);
+            var bookmark = new Bookmark { Id = id };
+            _db.Bookmarks.Attach(bookmark);
             _db.Bookmarks.Remove(bookmark);
             _db.SaveChanges();
         }
@@ -75,7 +76,7 @@ namespace Evelyn.Services
 
             if (bookmark == null)
             {
-                bookmark = new Models.Bookmark
+                bookmark = new Bookmark
                 {
                     UserId = userId,
                     ChapterId = chapterId,

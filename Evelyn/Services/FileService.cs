@@ -12,13 +12,19 @@ namespace Evelyn.Services
             _db = db;
         }
 
-        public File GetFile(int? fileId)
+        public File GetFile(int? id)
         {
-            if (fileId == null) throw new ArgumentNullException();
-            return _db.Files.Find(fileId);
+            if (id == null) throw new ArgumentNullException();
+            return _db.Files.Find(id);
         }
 
-        public void AddFile(File file) => _db.Files.Add(file);
+        public void DeleteFile(int id)
+        {
+            var file = new File { Id = id };
+            _db.Files.Attach(file);
+            _db.Files.Remove(file);
+            _db.SaveChanges();
+        }
 
         public void SaveChanges() => _db.SaveChanges();
     }
