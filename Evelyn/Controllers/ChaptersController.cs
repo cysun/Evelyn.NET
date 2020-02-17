@@ -47,7 +47,7 @@ namespace Evelyn.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditChapter(int id, string text)
+        public IActionResult Edit(int id, string text)
         {
             var chapter = _chapterService.GetChapter(id);
             var markdownFile = _fileService.GetFile(chapter.MarkdownFileId);

@@ -26,9 +26,10 @@ namespace Evelyn.Controllers
             _bookmarkService = bookmarkService;
         }
 
-        public IActionResult List()
+        public IActionResult List(string term)
         {
-            return View(_bookService.GetBooks());
+            var books = term != null ? _bookService.SearchBooks(term) : _bookService.GetBooks();
+            return View(books);
         }
 
         public IActionResult View(int id)
