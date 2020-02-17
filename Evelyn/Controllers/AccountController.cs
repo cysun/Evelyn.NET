@@ -39,7 +39,7 @@ namespace Evelyn.Controllers
                 });
 
             return string.IsNullOrWhiteSpace(returnUrl) ?
-                RedirectToAction("List", "Bookmarks") :
+                RedirectToAction("List", "Books") :
                 (IActionResult)LocalRedirect(returnUrl);
         }
 

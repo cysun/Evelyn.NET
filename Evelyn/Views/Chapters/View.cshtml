@@ -73,21 +73,33 @@
             }
           });
         }
-        else if (event.which == 39 && @ViewData["NextChapterId"]) { // right arrow
-          window.location.href = "./" + @ViewData["NextChapterId"];
+        else if (event.which == 39) { // right arrow
+          if (@ViewData["NextChapterId"])
+            window.location.href = "./" + @ViewData["NextChapterId"];
+          else
+            window.location.href = "@Context.Request.PathBase/Books/List";
         }
-        else if (event.which == 37 && @ViewData["PrevChapterId"]) { // left arrow
-          window.location.href = "./" + @ViewData["PrevChapterId"];
+        else if (event.which == 37) { // left arrow
+          if(@ViewData["PrevChapterId"])
+            window.location.href = "./" + @ViewData["PrevChapterId"];
+          else
+            window.location.href = "@Context.Request.PathBase/Books/List";
         }
       });
 
       var hammer = new Hammer(document.getElementById("content"));
       hammer.on("swipe", function (event) {
-        if (event.offsetDirection == 2 && @ViewData["NextChapterId"]) { // left swipe
-          window.location.href = "./" + @ViewData["NextChapterId"];
+        if (event.offsetDirection == 2) { // left swipe
+          if(@ViewData["NextChapterId"])
+            window.location.href = "./" + @ViewData["NextChapterId"];
+          else
+            window.location.href = "@Context.Request.PathBase/Books/List";
         }
-        else if (event.offsetDirection == 4 && @ViewData["PrevChapterId"]) { // right swipe
-          window.location.href = "./" + @ViewData["PrevChapterId"];
+        else if (event.offsetDirection == 4) { // right swipe
+          if(@ViewData["PrevChapterId"])
+            window.location.href = "./" + @ViewData["PrevChapterId"];
+          else
+            window.location.href = "@Context.Request.PathBase/Books/List";
         }
       });
     });
