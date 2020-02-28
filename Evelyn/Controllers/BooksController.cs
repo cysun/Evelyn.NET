@@ -150,6 +150,7 @@ namespace Evelyn.Controllers
                 }
                 book.MarkdownFile = markdownFile;
                 book.Chapters.Clear();
+                _bookService.SaveChanges();
             }
             else
             {

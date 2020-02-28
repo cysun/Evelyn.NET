@@ -23,9 +23,8 @@ namespace Evelyn.Services
         {
             // I don't want to select the tsv column as it's quite large, and PostgreSQL doesn't
             // have a syntax to exclude columns from SELECT *
-            string query = @"SELECT ""Id"", ""Title"", ""Author"", ""Notes"",
-                ""MarkdownFileId"", ""EBookFileId"", ""CoverFileId"", ""ThumbnailFileId"",
-                ""LastUpdated"", ""IsDeleted"" from ""Books"" WHERE PLAINTO_TSQUERY({0}) @@ tsv";
+            string query = @"SELECT b.* FROM Books b inner join BookMarkdownFiles f on b.Id = f.BookId
+                WHERE MATCH(f.Title, f.Author, f.Content) AGAINST ({0} IN NATURAL LANGUAGE MODE)";
             return _db.Books.FromSqlRaw(query, term).ToList();
         }
 
