@@ -11,9 +11,12 @@ namespace Evelyn.Models
         public int Id { get; set; }
 
         [Required]
+        [MaxLength(255)]
         public string Title { get; set; }
 
+        [MaxLength(255)]
         public string Author { get; set; }
+        [MaxLength(8000)]
         public string Notes { get; set; }
 
         public List<Chapter> Chapters { get; set; } = new List<Chapter>();
@@ -48,6 +51,7 @@ namespace Evelyn.Models
         public Book Book { get; set; }
 
         public int Number { get; set; }
+        [MaxLength(255)]
         public string Name { get; set; }
 
         public int MarkdownFileId { get; set; }

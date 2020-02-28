@@ -11,6 +11,7 @@ namespace Evelyn.Models
         public string Name { get; set; }
 
         [Required]
+        [MaxLength(255)]
         public string Hash { get; set; }
 
         [NotMapped]

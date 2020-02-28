@@ -1,4 +1,5 @@
-﻿using Evelyn.Services;
+﻿using System;
+using Evelyn.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using Pomelo.EntityFrameworkCore.MySql.Internal;
+using Pomelo.EntityFrameworkCore.MySql.Storage;
 
 namespace Evelyn
 {
@@ -46,7 +50,13 @@ namespace Evelyn
                 options.Filters.Add(new AuthorizeFilter("IsAuthenticated"));
             });
 
-            services.AddDbContext<AppDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection"), mysqlOptions =>
+                {
+                    mysqlOptions.ServerVersion(new ServerVersion(new Version(8, 0, 19), ServerType.MySql));
+                    mysqlOptions.DefaultDataTypeMappings(m => m.WithClrDateTime(MySqlDateTimeType.DateTime));
+                }
+            ));
             services.AddScoped<UserService>();
             services.AddScoped<FileService>();
             services.AddScoped<BookService>();

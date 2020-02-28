@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using Markdig;
@@ -14,7 +15,9 @@ namespace Evelyn.Models
     {
         public int Id { get; set; }
 
+        [MaxLength(255)]
         public string Name { get; set; }
+        [MaxLength(255)]
         public string ContentType { get; set; }
         public long Length { get; set; }
         public DateTime Timestamp { get; set; } = DateTime.Now;
