@@ -4,7 +4,7 @@
     "PathBase": "/evelyn"
   },
   "ConnectionStrings": {
-    "DefaultConnection": "Host=localhost;Database=evelyn;Username=cysun;Password=abcd"
+    "DefaultConnection": "Server=localhost;Database=evelyn;User=cysun;Password=abcd"
   },
   "Logging": {
     "LogLevel": {

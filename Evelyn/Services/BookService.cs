@@ -38,7 +38,17 @@ namespace Evelyn.Services
             return book;
         }
 
-        public void AddBook(Book book) => _db.Books.Add(book);
+        public void AddBook(Book book)
+        {
+            _db.Books.Add(book);
+            _db.SaveChanges();
+        }
+
+        public void DeleteBook(Book book)
+        {
+            _db.Books.Remove(book);
+            _db.SaveChanges();
+        }
 
         public void SaveChanges() => _db.SaveChanges();
     }
