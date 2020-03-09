@@ -21,12 +21,8 @@ namespace Evelyn.Services
 
         public List<Book> SearchBooks(string term)
         {
-            // I don't want to select the tsv column as it's quite large, and PostgreSQL doesn't
-            // have a syntax to exclude columns from SELECT *
-            string query = @"SELECT ""Id"", ""Title"", ""Author"", ""Notes"",
-                ""MarkdownFileId"", ""EBookFileId"", ""CoverFileId"", ""ThumbnailFileId"",
-                ""LastUpdated"", ""IsDeleted"" from ""Books"" WHERE PLAINTO_TSQUERY({0}) @@ tsv";
-            return _db.Books.FromSqlRaw(query, term).ToList();
+            return _db.Books.Where(b => EF.Functions.Like(b.Title, $"%{term}%")
+                || EF.Functions.Like(b.Author, $"%{term}%")).ToList();
         }
 
         public Book GetBook(int id)
