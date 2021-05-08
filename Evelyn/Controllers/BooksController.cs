@@ -119,6 +119,27 @@ namespace Evelyn.Controllers
             return RedirectToAction(nameof(View), new { id = book.Id });
         }
 
+        public IActionResult Delete(int id)
+        {
+            var book = _bookService.GetBook(id);
+
+            var fileIdsToDelete = new List<int>();
+            fileIdsToDelete.Add(book.MarkdownFileId);
+            if (book.EBookFileId != null) fileIdsToDelete.Add((int)book.EBookFileId);
+            if (book.CoverFileId != null) fileIdsToDelete.Add((int)book.CoverFileId);
+            if (book.ThumbnailFileId != null) fileIdsToDelete.Add((int)book.ThumbnailFileId);
+            foreach (var chapter in book.Chapters)
+            {
+                fileIdsToDelete.Add(chapter.MarkdownFileId);
+                fileIdsToDelete.Add(chapter.HtmlFileId);
+            }
+
+            _bookService.DeleteBook(book);
+            _fileService.DeleteFiles(fileIdsToDelete);
+
+            return RedirectToAction(nameof(List));
+        }
+
         public IActionResult EBook(int id)
         {
             var book = _bookService.GetBook(id);
