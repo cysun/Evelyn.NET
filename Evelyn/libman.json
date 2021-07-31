@@ -3,29 +3,6 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "twitter-bootstrap@4.4.1",
-      "destination": "wwwroot/lib/twitter-bootstrap/",
-      "files": [
-        "css/bootstrap.min.css",
-        "js/bootstrap.bundle.min.js"
-      ]
-    },
-    {
-      "library": "jquery@3.4.1",
-      "destination": "wwwroot/lib/jquery/",
-      "files": [
-        "jquery.min.js"
-      ]
-    },
-    {
-      "library": "bootswatch@4.4.1",
-      "destination": "wwwroot/lib/bootswatch/",
-      "files": [
-        "cyborg/bootstrap.min.css",
-        "darkly/bootstrap.min.css"
-      ]
-    },
-    {
       "library": "is-in-viewport@3.0.4",
       "destination": "wwwroot/lib/is-in-viewport/",
       "files": [

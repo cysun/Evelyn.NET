@@ -7,17 +7,6 @@
 <nav>
   <ol class="breadcrumb">
     <li class="breadcrumb-item active">Books</li>
-    <li class="ml-auto"><a asp-action="Add" class="btn btn-outline-secondary btn-sm"><i class="fas fa-plus"></i></a></li>
-    <li class="ml-3">
-      <form class="form-inline">
-        <div class="input-group">
-          <input type="text" name="term" class="form-control-small" value="@(Context.Request.Query["term"])">
-          <div class="input-group-append">
-            <a asp-action="List" class="btn btn-outline-secondary btn-sm"><i class="fas fa-times"></i></a>
-          </div>
-        </div>
-      </form>
-    </li>
   </ol>
 </nav>
 
