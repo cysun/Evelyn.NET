@@ -140,6 +140,13 @@ namespace Evelyn.Controllers
             return RedirectToAction(nameof(List));
         }
 
+        public IActionResult Download(int id)
+        {
+            var book = _bookService.GetBook(id);
+            var file = _fileService.GetFile(book.MarkdownFileId);
+            return File(file.OpenReadStream(), file.ContentType, file.Name);
+        }
+
         public IActionResult EBook(int id)
         {
             var book = _bookService.GetBook(id);
