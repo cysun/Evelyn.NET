@@ -36,8 +36,8 @@
         <td><a asp-action="List" asp-route-term="@book.Author">@book.Author</a></td>
         <td class="d-none d-lg-table-cell">@book.LastUpdated.ToString("d")</td>
         <td>
-          <a asp-action="Edit" asp-route-id="@book.Id" class="mr-3"><i class="fas fa-edit"></i></a>
-          <a asp-action="EBook" asp-route-id="@book.Id"><i class="fas fa-book"></i></a>
+          <a asp-action="Edit" asp-route-id="@book.Id" class="me-3"><i class="bi bi-pencil-square"></i></a>
+          <a asp-action="EBook" asp-route-id="@book.Id"><i class="bi bi-journal-arrow-down"></i></a>
         </td>
       </tr>
     }

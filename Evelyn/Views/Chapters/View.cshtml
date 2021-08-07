@@ -13,10 +13,8 @@
     {
       <li class="breadcrumb-item"><a asp-action="List" asp-route-bookId="@Model.Book.Id">@Model.Book.Title</a></li>
     }
-    <li class="breadcrumb-item active">
-      @Model.Name
-      <a asp-action="Edit" asp-route-id="@Model.Id" class="ms-3"><i class="fas fa-edit"></i></a>
-    </li>
+    <li class="breadcrumb-item active me-auto">@Model.Name</li>
+    <li><a asp-action="Edit" asp-route-id="@Model.Id"><i class="bi bi-pencil-square"></i></a></li>
   </ol>
 </nav>
 
