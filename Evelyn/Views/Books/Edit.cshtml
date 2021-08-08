@@ -8,9 +8,9 @@
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a asp-action="List">Books</a></li>
     <li class="breadcrumb-item"><a asp-action="View" asp-route-id="@Model.Id">@Model.Title</a></li>
-    <li class="breadcrumb-item active">
-      Edit
-      <button id="delete" class="btn btn-outline-danger btn-sm py-0 ms-3"><i class="fas fa-trash-alt"></i></button>
+    <li class="breadcrumb-item active me-auto">Edit</li>
+    <li>
+      <button id="delete" class="btn btn-outline-danger btn-sm py-0 ms-3"><i class="bi bi-trash"></i></button>
     </li>
   </ol>
 </nav>
