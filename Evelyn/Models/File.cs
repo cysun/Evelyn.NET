@@ -40,6 +40,7 @@ namespace Evelyn.Models
             Buffer.BlockCopy(another.Content, 0, newContent, Content.Length, another.Content.Length);
             Length += another.Length;
             Timestamp = DateTime.Now;
+            Content = newContent;
         }
 
         public static File FromUploadedFile(IFormFile uploadedFile)

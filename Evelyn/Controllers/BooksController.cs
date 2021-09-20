@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using Evelyn.Models;
@@ -145,6 +146,32 @@ namespace Evelyn.Controllers
             var book = _bookService.GetBook(id);
             var file = _fileService.GetFile(book.MarkdownFileId);
             return File(file.OpenReadStream(), file.ContentType, file.Name);
+        }
+
+        // Due a previous bug, the text or markdown file of a book may be incomplete
+        // (i.e. not including chapters that are supposed to be appended later), so
+        // instead of Download, this Markdown action should be used to download a
+        // markdown verson of the book.
+        public IActionResult Markdown(int id)
+        {
+            var book = _bookService.GetBook(id);
+            var title = Encoding.UTF8.GetBytes($"# {book.Title}\n");
+            var author = Encoding.UTF8.GetBytes($"### {book.Author}\n");
+            var chapters = book.Chapters.Select(c => _fileService.GetFile(c.MarkdownFileId).Content);
+
+            byte[] content = new byte[title.Length + author.Length + chapters.Select(c => c.Length).Sum()];
+
+            Buffer.BlockCopy(title, 0, content, 0, title.Length);
+            Buffer.BlockCopy(author, 0, content, title.Length, author.Length);
+
+            var offset = title.Length + author.Length;
+            foreach (var chapter in chapters)
+            {
+                Buffer.BlockCopy(chapter, 0, content, offset, chapter.Length);
+                offset += chapter.Length;
+            }
+
+            return File(content, "text/markdown", $"{book.Id}.txt");
         }
 
         public IActionResult EBook(int id)

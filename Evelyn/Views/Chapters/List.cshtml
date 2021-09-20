@@ -8,8 +8,8 @@
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a asp-controller="Books" asp-action="List">Books</a></li>
     <li class="breadcrumb-item active me-auto">@Model.Title</li>
-    <li><a asp-controller="Books" asp-action="Download"
-           asp-route-id="@Model.Id"><i class="bi bi-file-arrow-down"></i></a></li>
+    <li><a asp-controller="Books" asp-action="Markdown"
+           asp-route-id="@Model.Id"><i class="bi bi-markdown"></i></a></li>
   </ol>
 </nav>
 
