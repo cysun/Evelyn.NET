@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.IO.Compression;
-using Microsoft.AspNetCore.Hosting;
+﻿using System.IO.Compression;
 using Scriban;
 
 namespace Evelyn.Services

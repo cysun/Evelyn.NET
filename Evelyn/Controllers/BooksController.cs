@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Text;
 using Evelyn.Models;
 using Evelyn.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Evelyn.Controllers
@@ -111,7 +106,7 @@ namespace Evelyn.Controllers
                 book.EBookFileId = null;
             }
 
-            book.LastUpdated = DateTime.Now;
+            book.LastUpdated = DateTime.UtcNow;
             _bookService.SaveChanges();
 
             if (fileIdsToDelete.Count > 0)

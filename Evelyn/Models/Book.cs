@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
@@ -34,7 +32,7 @@ namespace Evelyn.Models
         [JsonIgnore]
         public File ThumbnailFile { get; set; }
 
-        public DateTime LastUpdated { get; set; } = DateTime.Now;
+        public DateTime LastUpdated { get; set; } = DateTime.UtcNow;
 
         public bool IsDeleted { get; set; } = false;
     }
@@ -58,6 +56,6 @@ namespace Evelyn.Models
         [JsonIgnore]
         public File HtmlFile { get; set; }
 
-        public DateTime LastUpdated { get; set; } = DateTime.Now;
+        public DateTime LastUpdated { get; set; } = DateTime.UtcNow;
     }
 }

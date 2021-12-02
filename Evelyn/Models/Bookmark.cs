@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Evelyn.Models
+﻿namespace Evelyn.Models
 {
     public class Bookmark
     {
@@ -14,7 +12,7 @@ namespace Evelyn.Models
 
         public int Paragraph { get; set; } = 1;
 
-        public DateTime Timestamp { get; set; } = DateTime.Now;
+        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 
         public bool IsManual { get; set; } = false;
     }

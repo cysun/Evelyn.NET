@@ -1,8 +1,6 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using Markdig;
-using Microsoft.AspNetCore.Http;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.PixelFormats;
@@ -17,7 +15,7 @@ namespace Evelyn.Models
         public string Name { get; set; }
         public string ContentType { get; set; }
         public long Length { get; set; }
-        public DateTime Timestamp { get; set; } = DateTime.Now;
+        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 
         public byte[] Content { get; set; }
 
@@ -39,7 +37,7 @@ namespace Evelyn.Models
             Buffer.BlockCopy(Content, 0, newContent, 0, Content.Length);
             Buffer.BlockCopy(another.Content, 0, newContent, Content.Length, another.Content.Length);
             Length += another.Length;
-            Timestamp = DateTime.Now;
+            Timestamp = DateTime.UtcNow;
             Content = newContent;
         }
 

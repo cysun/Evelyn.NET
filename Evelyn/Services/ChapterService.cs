@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Evelyn.Models;
+﻿using Evelyn.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Evelyn.Services

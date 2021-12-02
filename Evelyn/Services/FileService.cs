@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Evelyn.Models;
-
-namespace Evelyn.Services
+﻿namespace Evelyn.Services
 {
     public class FileService
     {
@@ -14,7 +9,7 @@ namespace Evelyn.Services
             _db = db;
         }
 
-        public File GetFile(int? id)
+        public Models.File GetFile(int? id)
         {
             if (id == null) throw new ArgumentNullException();
             return _db.Files.Find(id);
@@ -22,7 +17,7 @@ namespace Evelyn.Services
 
         public void DeleteFiles(List<int> ids)
         {
-            var filesToDelete = ids.Select(id => new File { Id = id });
+            var filesToDelete = ids.Select(id => new Models.File { Id = id });
             _db.Files.RemoveRange(filesToDelete);
             _db.SaveChanges();
         }

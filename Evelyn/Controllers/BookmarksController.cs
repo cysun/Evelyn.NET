@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Evelyn.Services;
 using Microsoft.AspNetCore.Mvc;
 

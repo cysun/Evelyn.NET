@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Evelyn.Models;
+﻿using Evelyn.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Evelyn.Services
@@ -88,7 +85,7 @@ namespace Evelyn.Services
             {
                 bookmark.ChapterId = chapterId;
                 bookmark.Paragraph = paragraph;
-                bookmark.Timestamp = DateTime.Now;
+                bookmark.Timestamp = DateTime.UtcNow;
             }
             _db.SaveChanges();
         }

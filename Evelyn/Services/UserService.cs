@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Evelyn.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
