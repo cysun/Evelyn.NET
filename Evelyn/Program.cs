@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.UseUrls("http://localhost:5001");
 
 var configuration = builder.Configuration;
 
