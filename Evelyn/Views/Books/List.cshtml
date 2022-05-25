@@ -1,4 +1,4 @@
-﻿@model List<Book>
+@model List<Book>
 
 @{
   ViewData["Title"] = "Books";
@@ -7,14 +7,7 @@
 <nav>
   <ol class="breadcrumb">
     <li class="breadcrumb-item active me-auto">Books</li>
-    <li>
-      <form asp-controller="Books" asp-action="List" method="get" class="d-flex">
-        <div class="input-group">
-          <input name="term" class="form-control form-control-sm" type="search" aria-label="Search">
-          <button class="btn btn-outline-dark btn-sm" type="submit"><i class="bi bi-search"></i></button>
-        </div>
-      </form>
-    </li>
+    <li><a asp-controller="Books" asp-action="Add"><i class="bi bi-journal-plus"></i></a></li>
   </ol>
 </nav>
 

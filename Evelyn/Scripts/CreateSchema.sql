@@ -34,6 +34,7 @@ CREATE TABLE "Books" (
     "CoverFileId" integer NULL,
     "ThumbnailFileId" integer NULL,
     "LastUpdated" timestamp with time zone NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+    "LastViewed" timestamp with time zone NULL,
     "IsDeleted" boolean NOT NULL DEFAULT FALSE,
     CONSTRAINT "PK_Books" PRIMARY KEY ("Id"),
     CONSTRAINT "FK_Books_Files_CoverFileId" FOREIGN KEY ("CoverFileId") REFERENCES "Files" ("Id"),
@@ -86,7 +87,7 @@ CREATE INDEX "IX_Chapters_HtmlFileId" ON "Chapters" ("HtmlFileId");
 CREATE INDEX "IX_Chapters_MarkdownFileId" ON "Chapters" ("MarkdownFileId");
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20211202220352_InitialSchema', '6.0.0');
+VALUES ('20220525000211_InitialSchema', '6.0.5');
 
 COMMIT;
 

@@ -1,4 +1,4 @@
-﻿using Evelyn.Models;
+using Evelyn.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Evelyn.Services
@@ -14,7 +14,7 @@ namespace Evelyn.Services
 
         public List<Book> GetBooks()
         {
-            return _db.Books.OrderByDescending(b => b.LastUpdated).ToList();
+            return _db.Books.OrderByDescending(b => b.LastViewed ?? b.LastUpdated).ToList();
         }
 
         public List<Book> SearchBooks(string term)
