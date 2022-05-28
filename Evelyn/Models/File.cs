@@ -3,7 +3,6 @@ using System.Text;
 using Markdig;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
-using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 
 namespace Evelyn.Models
@@ -26,9 +25,9 @@ namespace Evelyn.Models
             set => Content = Encoding.UTF8.GetBytes(value);
         }
 
-        public System.IO.Stream OpenReadStream()
+        public Stream OpenReadStream()
         {
-            return new System.IO.MemoryStream(Content, false);
+            return new MemoryStream(Content, false);
         }
 
         public void Append(File another)
@@ -43,14 +42,14 @@ namespace Evelyn.Models
 
         public static File FromUploadedFile(IFormFile uploadedFile)
         {
-            var file = new Models.File
+            var file = new File
             {
-                Name = System.IO.Path.GetFileName(uploadedFile.FileName),
+                Name = Path.GetFileName(uploadedFile.FileName),
                 ContentType = uploadedFile.ContentType,
                 Length = uploadedFile.Length
             };
 
-            using (var memoryStream = new System.IO.MemoryStream())
+            using (var memoryStream = new MemoryStream())
             {
                 uploadedFile.CopyTo(memoryStream);
                 file.Content = memoryStream.ToArray();
@@ -75,8 +74,8 @@ namespace Evelyn.Models
 
         public static File ImageToThumbnail(File imageFile)
         {
-            var imageName = System.IO.Path.GetFileNameWithoutExtension(imageFile.Name);
-            var imageExtension = System.IO.Path.GetExtension(imageFile.Name);
+            var imageName = Path.GetFileNameWithoutExtension(imageFile.Name);
+            var imageExtension = Path.GetExtension(imageFile.Name);
             var thumbnail = new File
             {
                 Name = $"{imageName} - thumbnail.{imageExtension}",
@@ -84,10 +83,10 @@ namespace Evelyn.Models
             };
 
             IImageFormat imageFormat;
-            using (var image = Image.Load(imageFile.Content, out imageFormat) as Image<Rgba32>)
+            using (var image = Image.Load(imageFile.Content, out imageFormat))
             {
                 image.Mutate(x => x.Resize(0, 48));
-                using (var output = new System.IO.MemoryStream())
+                using (var output = new MemoryStream())
                 {
                     image.Save(output, imageFormat);
                     thumbnail.Content = output.ToArray();
