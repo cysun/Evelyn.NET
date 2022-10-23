@@ -1,16 +1,20 @@
-﻿using Evelyn.Services;
+using Evelyn.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.WebHost.UseUrls("http://localhost:5001");
 
+var environment = builder.Environment;
 var configuration = builder.Configuration;
+var services = builder.Services;
+
+// In production, this app will sit behind a Nginx reverse proxy with HTTPS
+if (!environment.IsDevelopment())
+    builder.WebHost.UseUrls("http://localhost:5010");
 
 // Configure Services
-var services = builder.Services;
 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 services.AddAuthorization(options =>
 {
@@ -43,7 +47,6 @@ else
     app.UseExceptionHandler("/Home/Error");
 }
 
-app.UsePathBase(configuration.GetValue<string>("Application:PathBase"));
 app.UseStaticFiles();
 app.UseRouting();
 app.UseForwardedHeaders(new ForwardedHeadersOptions

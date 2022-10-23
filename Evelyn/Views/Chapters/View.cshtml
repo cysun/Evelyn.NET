@@ -1,4 +1,4 @@
-﻿@model Chapter
+@model Chapter
 
 @{
   ViewData["Title"] = "View Chapter";
@@ -48,7 +48,7 @@
 
       $(window).on("scrollstop", function () {
         $.ajax({
-          url: "@Context.Request.PathBase/Bookmarks/AutoBookmark",
+          url: "../../Bookmarks/AutoBookmark",
           data: {
             bookId: @Model.BookId,
             chapterId: @Model.Id,
@@ -60,13 +60,13 @@
       $(document).keyup(function (event) {
         if (event.key == "Escape") {
           if (@Model.Book.Chapters.Count > 1)
-            window.location.href = "@Context.Request.PathBase/Chapters/List?bookId=@Model.BookId";
+            window.location.href = "../List?bookId=@Model.BookId";
           else
-            window.location.href = "@Context.Request.PathBase/Books/List";
+            window.location.href = "../../Books/List";
         }
         else if (event.key == "b") {
           $.ajax({
-            url: "@Context.Request.PathBase/Bookmarks/Set",
+            url: "../../Bookmarks/Set",
             data: {
               chapterId: @Model.Id,
               paragraph: $("p:in-viewport").first().attr("data-index")
@@ -77,13 +77,13 @@
           if (@ViewData["NextChapterId"])
             window.location.href = "./" + @ViewData["NextChapterId"];
           else
-            window.location.href = "@Context.Request.PathBase/Books/List";
+            window.location.href = "../../Books/List";
         }
         else if (event.which == 37) { // left arrow
           if(@ViewData["PrevChapterId"])
             window.location.href = "./" + @ViewData["PrevChapterId"];
           else
-            window.location.href = "@Context.Request.PathBase/Books/List";
+            window.location.href = "../../Books/List";
         }
       });
 
@@ -93,13 +93,13 @@
           if(@ViewData["NextChapterId"])
             window.location.href = "./" + @ViewData["NextChapterId"];
           else
-            window.location.href = "@Context.Request.PathBase/Books/List";
+            window.location.href = "../../Books/List";
         }
         else if (event.offsetDirection == 4) { // right swipe
           if(@ViewData["PrevChapterId"])
             window.location.href = "./" + @ViewData["PrevChapterId"];
           else
-            window.location.href = "@Context.Request.PathBase/Books/List";
+            window.location.href = "../../Books/List";
         }
       });
     });

@@ -1,4 +1,4 @@
-﻿@model Book
+@model Book
 
 @{
   ViewData["Title"] = "Book Chapters";
@@ -27,7 +27,7 @@
   <script>
     $(document).keyup(function (event) {
       if (event.key == "Escape") {
-        window.location.href = "@Context.Request.PathBase/Books/List";
+        window.location.href = "../Books/List";
       }
     });
   </script>

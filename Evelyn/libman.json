@@ -17,14 +17,14 @@
       ]
     },
     {
-      "library": "jquery@3.6.0",
+      "library": "jquery@3.6.1",
       "destination": "wwwroot/lib/jquery/",
       "files": [
         "jquery.min.js"
       ]
     },
     {
-      "library": "bootstrap@5.2.0",
+      "library": "bootstrap@5.2.2",
       "destination": "wwwroot/lib/bootstrap/",
       "files": [
         "css/bootstrap.min.css",
@@ -32,7 +32,7 @@
       ]
     },
     {
-      "library": "bootswatch@5.2.0",
+      "library": "bootswatch@5.2.2",
       "destination": "wwwroot/lib/bootswatch/",
       "files": [
         "cyborg/bootstrap.min.css"
