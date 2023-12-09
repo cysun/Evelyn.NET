@@ -1,8 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using Markdig;
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Processing;
 
 namespace Evelyn.Models
@@ -82,13 +81,12 @@ namespace Evelyn.Models
                 ContentType = imageFile.ContentType
             };
 
-            IImageFormat imageFormat;
-            using (var image = Image.Load(imageFile.Content, out imageFormat))
+            using (var image = Image.Load(imageFile.Content))
             {
                 image.Mutate(x => x.Resize(0, 48));
                 using (var output = new MemoryStream())
                 {
-                    image.Save(output, imageFormat);
+                    image.Save(output, image.Metadata.DecodedImageFormat);
                     thumbnail.Content = output.ToArray();
                 }
             }

@@ -56,12 +56,10 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-        "default",
-        "{controller=Account}/{action=Login}/{id?}");
-});
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Account}/{action=Login}/{id?}"
+);
 
 // Run App
 app.Run();
