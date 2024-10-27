@@ -32,13 +32,6 @@
       ]
     },
     {
-      "library": "bootswatch@5.3.3",
-      "destination": "wwwroot/lib/bootswatch/",
-      "files": [
-        "cyborg/bootstrap.min.css"
-      ]
-    },
-    {
       "library": "bootstrap-icons@1.11.3",
       "destination": "wwwroot/lib/bootstrap-icons/",
       "files": [

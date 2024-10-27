@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html data-bs-theme="dark">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Evelyn - @ViewData["Title"]</title>
-    <link rel="stylesheet" href="~/lib/bootswatch/cyborg/bootstrap.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css">
     @RenderSection("StyleSheets", required: false)
     <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css">
 </head>
 <body class="container">
 
     <header>
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark border-0">
+        <nav class="navbar navbar-expand-md bg-body-secondary">
             <div class="container-fluid">
                 @if (User.Identity.IsAuthenticated)
                 {
@@ -36,7 +36,7 @@
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="downloadDropdown" role="button"
-                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                   data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Download
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="downloadDropdown">
@@ -54,7 +54,7 @@
                         <form asp-controller="Books" asp-action="List" method="get" class="d-flex">
                             <div class="input-group">
                                 <input name="term" class="form-control form-control-sm" type="search" aria-label="Search">
-                                <button class="btn btn-outline-dark btn-sm" type="submit"><i class="bi bi-search"></i></button>
+                                <button class="btn btn-outline-secondary btn-sm" type="submit"><i class="bi bi-search"></i></button>
                             </div>
                         </form>
                     </div>
@@ -68,7 +68,7 @@
         </div>
     </main>
     <footer>
-        <div class="container text-center">
+        <div class="container text-center text-body-tertiary mb-3">
             <div>&copy; Copyright 2012-2022 by Chengyu Sun.</div>
             <div class="small">
                 Icons made by
@@ -80,6 +80,16 @@
     </footer>
     <script src="~/lib/jquery/jquery.min.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function updateTheme() {
+            $("html").attr("data-bs-theme", window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        }
+        $(function () {
+            // Code from https://github.com/shaack/bootstrap-auto-dark-mode/blob/main/src/bootstrap-auto-dark-mode.js
+            window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", updateTheme);
+            updateTheme();
+        });
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
