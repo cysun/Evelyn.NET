@@ -1,4 +1,4 @@
-﻿@model Chapter
+@model Chapter
 
 @{
   ViewData["Title"] = "Edit Chapter";
@@ -21,7 +21,7 @@
     <textarea class="form-control" rows="10" name="text">@Html.Raw(ViewBag.Markdown.Text)</textarea>
   </div>
   <a asp-action="View" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Cancel</a>
-  <button type="submit" class="btn btn-outline-dark ms-2">Save</button>
+  <button type="submit" class="btn btn-outline-primary ms-2">Save</button>
 </form>
 
 @section StyleSheets{
