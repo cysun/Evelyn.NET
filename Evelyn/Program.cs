@@ -11,22 +11,20 @@ var configuration = builder.Configuration;
 var services = builder.Services;
 
 // In production, this app will sit behind a Nginx reverse proxy with HTTPS
-if (!environment.IsDevelopment())
-    builder.WebHost.UseUrls("http://localhost:5010");
+if (!environment.IsDevelopment()) builder.WebHost.UseUrls("http://localhost:5010");
 
 // Configure Services
+
 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 services.AddAuthorization(options =>
 {
     options.AddPolicy("IsAuthenticated", policyBuilder => policyBuilder.RequireAuthenticatedUser());
 });
 
-services.AddControllersWithViews(options =>
-{
-    options.Filters.Add(new AuthorizeFilter("IsAuthenticated"));
-});
+services.AddControllersWithViews(options => { options.Filters.Add(new AuthorizeFilter("IsAuthenticated")); });
 
-services.AddDbContext<AppDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 services.AddScoped<UserService>();
 services.AddScoped<FileService>();
 services.AddScoped<BookService>();
@@ -38,14 +36,9 @@ services.AddScoped<BookmarkService>();
 var app = builder.Build();
 
 // Configure Middleware Pipeline
+
 if (!app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-}
-else
-{
     app.UseExceptionHandler("/Home/Error");
-}
 
 app.MapStaticAssets();
 app.UseRouting();
@@ -57,9 +50,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}"
-);
+        "default",
+        "{controller=Account}/{action=Login}/{id?}")
+    .WithStaticAssets();
 
 // Run App
 app.Run();
