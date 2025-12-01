@@ -82,21 +82,6 @@
             window.location.href = "../../Books/List";
         }
       });
-
-      const hammer = new Hammer(document.getElementById("content"));
-      hammer.on("swipe", function (event) {
-        if (event.offsetDirection === 2) { // left swipe
-          if (@ViewData["NextChapterId"])
-            window.location.href = "./" + @ViewData["NextChapterId"];
-          else
-            window.location.href = "../../Books/List";
-        } else if (event.offsetDirection === 4) { // right swipe
-          if (@ViewData["PrevChapterId"])
-            window.location.href = "./" + @ViewData["PrevChapterId"];
-          else
-            window.location.href = "../../Books/List";
-        }
-      });
     });
   </script>
 }
