@@ -1,5 +1,4 @@
 @model Chapter
-
 @{
   ViewData["Title"] = "View Chapter";
   ViewData["NextChapterId"] = Model.Number < Model.Book.Chapters.Count ? Model.Book.Chapters[Model.Number].Id : 0;
@@ -38,12 +37,12 @@
     $(function () {
       $("h2").addClass("d-none");
 
-      var index = 1;
+      let index = 1;
       $("p").each(function () {
         $(this).attr("data-index", index++);
       });
 
-      if( @ViewBag.Paragraph > 1 )
+      if (@ViewBag.Paragraph > 1)
         $(window).scrollTop($("p[data-index='@ViewBag.Paragraph']").offset().top);
 
       $(window).on("scrollstop", function () {
@@ -58,13 +57,12 @@
       });
 
       $(document).keyup(function (event) {
-        if (event.key == "Escape") {
+        if (event.key === "Escape") {
           if (@Model.Book.Chapters.Count > 1)
             window.location.href = "../List?bookId=@Model.BookId";
           else
             window.location.href = "../../Books/List";
-        }
-        else if (event.key == "b") {
+        } else if (event.key === "b") {
           $.ajax({
             url: "../../Bookmarks/Set",
             data: {
@@ -72,31 +70,28 @@
               paragraph: $("p:in-viewport").first().attr("data-index")
             }
           });
-        }
-        else if (event.which == 39) { // right arrow
+        } else if (event.which === 39) { // right arrow
           if (@ViewData["NextChapterId"])
             window.location.href = "./" + @ViewData["NextChapterId"];
           else
             window.location.href = "../../Books/List";
-        }
-        else if (event.which == 37) { // left arrow
-          if(@ViewData["PrevChapterId"])
+        } else if (event.which === 37) { // left arrow
+          if (@ViewData["PrevChapterId"])
             window.location.href = "./" + @ViewData["PrevChapterId"];
           else
             window.location.href = "../../Books/List";
         }
       });
 
-      var hammer = new Hammer(document.getElementById("content"));
+      const hammer = new Hammer(document.getElementById("content"));
       hammer.on("swipe", function (event) {
-        if (event.offsetDirection == 2) { // left swipe
-          if(@ViewData["NextChapterId"])
+        if (event.offsetDirection === 2) { // left swipe
+          if (@ViewData["NextChapterId"])
             window.location.href = "./" + @ViewData["NextChapterId"];
           else
             window.location.href = "../../Books/List";
-        }
-        else if (event.offsetDirection == 4) { // right swipe
-          if(@ViewData["PrevChapterId"])
+        } else if (event.offsetDirection === 4) { // right swipe
+          if (@ViewData["PrevChapterId"])
             window.location.href = "./" + @ViewData["PrevChapterId"];
           else
             window.location.href = "../../Books/List";

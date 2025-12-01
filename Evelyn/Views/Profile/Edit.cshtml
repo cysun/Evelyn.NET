@@ -1,7 +1,6 @@
 @{
   ViewData["Title"] = "Profile";
 }
-
 <nav>
   <ol class="breadcrumb">
     <li class="breadcrumb-item active">Profile</li>
@@ -35,9 +34,9 @@
     $(function () {
       $("#save").prop("disabled", true);
       $("[type='password']").keyup(function () {
-        var password1 = $("#password1").val();
-        var password2 = $("#password2").val();
-        if (password1 && password2 && password1 == password2)
+        const password1 = $("#password1").val();
+        const password2 = $("#password2").val();
+        if (password1 && password2 && password1 === password2)
           $("#save").prop("disabled", false);
         else
           $("#save").prop("disabled", true);

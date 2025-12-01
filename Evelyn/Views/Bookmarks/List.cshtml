@@ -12,26 +12,30 @@
 
 <table class="table">
   <thead>
-    <tr><th>Book</th><th>Chapter</th><th></th></tr>
+  <tr>
+    <th>Book</th>
+    <th>Chapter</th>
+    <th></th>
+  </tr>
   </thead>
   <tbody>
-    @foreach (var bookmark in Model)
-    {
-      <tr>
-        <td>@bookmark.Chapter.Book.Title</td>
-        <td>
-          <a asp-controller="Chapters" asp-action="View" asp-route-id="@bookmark.Chapter.Id"
-             asp-route-paragraph="@bookmark.Paragraph">@bookmark.Chapter.Name</a>
-          @if (!bookmark.IsManual)
-          {
-            <span class="badge badge-secondary ml-2">auto</span>
-          }
-        </td>
-        <td>
-          <a asp-controller="Bookmarks" asp-action="Delete",
-             asp-route-id="@bookmark.Id"><i class="bi bi-bookmark-dash text-danger"></i></a>
-        </td>
-      </tr>
-    }
+  @foreach (var bookmark in Model)
+  {
+    <tr>
+      <td>@bookmark.Chapter.Book.Title</td>
+      <td>
+        <a asp-controller="Chapters" asp-action="View" asp-route-id="@bookmark.Chapter.Id"
+           asp-route-paragraph="@bookmark.Paragraph">@bookmark.Chapter.Name</a>
+        @if (!bookmark.IsManual)
+        {
+          <span class="badge badge-secondary ml-2">auto</span>
+        }
+      </td>
+      <td>
+        <a asp-controller="Bookmarks" asp-action="Delete"
+           asp-route-id="@bookmark.Id"><i class="bi bi-bookmark-dash text-danger"></i></a>
+      </td>
+    </tr>
+  }
   </tbody>
 </table>

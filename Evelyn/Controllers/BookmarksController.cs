@@ -2,41 +2,40 @@
 using Evelyn.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Evelyn.Controllers
+namespace Evelyn.Controllers;
+
+public class BookmarksController : Controller
 {
-    public class BookmarksController : Controller
+    private readonly BookmarkService _bookmarkService;
+
+    public BookmarksController(BookmarkService bookmarkService)
     {
-        private readonly BookmarkService bookmarkService;
+        _bookmarkService = bookmarkService;
+    }
 
-        public BookmarksController(BookmarkService bookmarkService)
-        {
-            this.bookmarkService = bookmarkService;
-        }
+    public IActionResult List()
+    {
+        var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value;
+        return View(_bookmarkService.GetBookmarks(int.Parse(userId)));
+    }
 
-        public IActionResult List()
-        {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-            return View(bookmarkService.GetBookmarks(int.Parse(userId)));
-        }
+    public IActionResult Set(int chapterId, int paragraph = 1)
+    {
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        _bookmarkService.SetBookmark(userId, chapterId, paragraph);
+        return Ok();
+    }
 
-        public IActionResult Set(int chapterId, int paragraph = 1)
-        {
-            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            bookmarkService.SetBookmark(userId, chapterId, paragraph);
-            return Ok();
-        }
+    public IActionResult Delete(int id)
+    {
+        _bookmarkService.DeleteBookmark(id);
+        return RedirectToAction(nameof(List));
+    }
 
-        public IActionResult Delete(int id)
-        {
-            bookmarkService.DeleteBookmark(id);
-            return RedirectToAction(nameof(List));
-        }
-
-        public IActionResult AutoBookmark(int bookId, int chapterId, int paragraph = 1)
-        {
-            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            bookmarkService.SetAutoBookmark(userId, bookId, chapterId, paragraph);
-            return Ok();
-        }
+    public IActionResult AutoBookmark(int bookId, int chapterId, int paragraph = 1)
+    {
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        _bookmarkService.SetAutoBookmark(userId, bookId, chapterId, paragraph);
+        return Ok();
     }
 }

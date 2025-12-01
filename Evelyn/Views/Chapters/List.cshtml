@@ -1,39 +1,38 @@
 @model Book
-
 @{
-    ViewData["Title"] = "Book Chapters";
+  ViewData["Title"] = "Book Chapters";
 }
 
 <nav>
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a asp-controller="Books" asp-action="List">Books</a></li>
-        <li class="breadcrumb-item active me-auto">@Model.Title</li>
-        <li>
-            <a asp-controller="Books" asp-action="Edit" asp-route-id="@Model.Id" class="me-2">
-                <i class="bi bi-pencil-square"></i></a>
-            <a asp-controller="Books" asp-action="Markdown" asp-route-id="@Model.Id">
-                <i class="bi bi-markdown"></i>
-            </a>
-        </li>
-    </ol>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-controller="Books" asp-action="List">Books</a></li>
+    <li class="breadcrumb-item active me-auto">@Model.Title</li>
+    <li>
+      <a asp-controller="Books" asp-action="Edit" asp-route-id="@Model.Id" class="me-2">
+        <i class="bi bi-pencil-square"></i></a>
+      <a asp-controller="Books" asp-action="Markdown" asp-route-id="@Model.Id">
+        <i class="bi bi-markdown"></i>
+      </a>
+    </li>
+  </ol>
 </nav>
 
 <table class="table">
-    @foreach (var chapter in Model.Chapters)
-    {
-        <tr>
-            <td>@chapter.Number</td>
-            <td><a asp-controller="Chapters" asp-action="View" asp-route-id="@chapter.Id">@chapter.Name</a></td>
-        </tr>
-    }
+  @foreach (var chapter in Model.Chapters)
+  {
+    <tr>
+      <td>@chapter.Number</td>
+      <td><a asp-controller="Chapters" asp-action="View" asp-route-id="@chapter.Id">@chapter.Name</a></td>
+    </tr>
+  }
 </table>
 
 @section Scripts {
-    <script>
-        $(document).keyup(function (event) {
-          if (event.key === "Escape") {
-            window.location.href = "../Books/List";
-          }
-        });
-    </script>
+  <script>
+    $(document).keyup(function (event) {
+      if (event.key === "Escape") {
+        window.location.href = "../Books/List";
+      }
+    });
+  </script>
 }

@@ -21,16 +21,13 @@ public class UserService
 
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.Name)
+            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new(ClaimTypes.Name, user.Name)
         };
         return new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
     }
 
-    public User GetUser(string name)
-    {
-        return _db.Users.Where(u => u.Name.ToUpper() == name.ToUpper()).SingleOrDefault();
-    }
+    public User GetUser(string name) => _db.Users.SingleOrDefault(u => u.Name.ToUpper() == name.ToUpper());
 
     public void SaveChanges() => _db.SaveChanges();
 }

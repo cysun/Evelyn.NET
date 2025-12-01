@@ -1,5 +1,4 @@
 @model List<Book>
-
 @{
   ViewData["Title"] = "Books";
 }
@@ -13,36 +12,36 @@
 
 <table class="table table-hover">
   <thead>
-    <tr>
-      <th></th>
-      <th>Book</th>
-      <th class="d-none d-md-table-cell">Author</th>
-      <th class="d-none d-lg-table-cell">Updated</th>
-      <th class="d-none d-sm-table-cell"></th>
-    </tr>
+  <tr>
+    <th></th>
+    <th>Book</th>
+    <th class="d-none d-md-table-cell">Author</th>
+    <th class="d-none d-lg-table-cell">Updated</th>
+    <th class="d-none d-sm-table-cell"></th>
+  </tr>
   </thead>
   <tbody>
-    @foreach (var book in Model)
-    {
-      <tr>
-        <td>
-          @if (book.ThumbnailFileId != null)
-          {
-            <a asp-controller="Files" asp-action="View" asp-route-id="@book.CoverFileId">
-              <img src="~/Files/View/@book.ThumbnailFileId" alt="thumbnail" />
-            </a>
-          }
-        </td>
-        <td><a asp-action="View" asp-route-id="@book.Id">@book.Title</a></td>
-        <td class="d-none d-md-table-cell"><a asp-action="List" asp-route-term="@book.Author">@book.Author</a></td>
-        <td class="d-none d-lg-table-cell">@book.LastUpdated.ToString("d")</td>
-        <td class="d-none d-sm-table-cell">
-          <a asp-action="Edit" asp-route-id="@book.Id" class="me-3"><i class="bi bi-pencil-square"></i></a>
-          <a asp-action="EBook" asp-route-id="@book.Id" class="me-3"><i class="bi bi-journal-text"></i></a>
-          <a asp-controller="Books" asp-action="Markdown" asp-route-id="@book.Id"><i class="bi bi-markdown"></i></a>
-        </td>
-      </tr>
-    }
+  @foreach (var book in Model)
+  {
+    <tr>
+      <td>
+        @if (book.ThumbnailFileId != null)
+        {
+          <a asp-controller="Files" asp-action="View" asp-route-id="@book.CoverFileId">
+            <img src="~/Files/View/@book.ThumbnailFileId" alt="thumbnail"/>
+          </a>
+        }
+      </td>
+      <td><a asp-action="View" asp-route-id="@book.Id">@book.Title</a></td>
+      <td class="d-none d-md-table-cell"><a asp-action="List" asp-route-term="@book.Author">@book.Author</a></td>
+      <td class="d-none d-lg-table-cell">@book.LastUpdated.ToString("d")</td>
+      <td class="d-none d-sm-table-cell">
+        <a asp-action="Edit" asp-route-id="@book.Id" class="me-3"><i class="bi bi-pencil-square"></i></a>
+        <a asp-action="EBook" asp-route-id="@book.Id" class="me-3"><i class="bi bi-journal-text"></i></a>
+        <a asp-controller="Books" asp-action="Markdown" asp-route-id="@book.Id"><i class="bi bi-markdown"></i></a>
+      </td>
+    </tr>
+  }
   </tbody>
 </table>
 

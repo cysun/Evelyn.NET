@@ -2,31 +2,27 @@
 using Evelyn.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Evelyn.Controllers
+namespace Evelyn.Controllers;
+
+public class ProfileController : Controller
 {
-    public class ProfileController : Controller
+    private readonly UserService _userService;
+
+    public ProfileController(UserService userService)
     {
-        private readonly UserService userService;
+        _userService = userService;
+    }
 
-        public ProfileController(UserService userService)
-        {
-            this.userService = userService;
-        }
+    [HttpGet]
+    public IActionResult Edit() => View();
 
-        [HttpGet]
-        public IActionResult Edit()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Edit(string password)
-        {
-            var username = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
-            var user = userService.GetUser(username);
-            user.Password = password;
-            userService.SaveChanges();
-            return Redirect("Edit?Saved");
-        }
+    [HttpPost]
+    public IActionResult Edit(string password)
+    {
+        var username = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)!.Value;
+        var user = _userService.GetUser(username);
+        user.Password = password;
+        _userService.SaveChanges();
+        return Redirect("Edit?Saved");
     }
 }

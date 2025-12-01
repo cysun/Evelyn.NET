@@ -1,15 +1,13 @@
-# To learn more about .editorconfig see https://aka.ms/editorconfigdocs
-###############################
-# Core EditorConfig Options   #
-###############################
-# All files
 [*]
-indent_style = space
 charset = utf-8
+indent_style = space
+indent_size = 2
+insert_final_newline = true
 
 [*.cs]
 indent_size = 4
-insert_final_newline = true
 
-[*.{csproj,proj,cshtml}]
-indent_size = 2
+# Rider code style settings
+csharp_namespace_body = file_scoped
+csharp_keep_existing_attribute_arrangement = true
+resharper_convert_to_primary_constructor_highlighting = none

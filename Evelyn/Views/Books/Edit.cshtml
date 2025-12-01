@@ -1,5 +1,4 @@
 @model Book
-
 @{
   ViewData["Title"] = "Edit";
 }
@@ -48,11 +47,11 @@
 
 @section Scripts{
   <script>
-  $(function () {
-    $("#delete").click(function () {
-      if (confirm("Are you sure you want to delete this book?"))
-        window.location.href = "../Delete/@Model.Id";
+    $(function () {
+      $("#delete").click(function () {
+        if (confirm("Are you sure you want to delete this book?"))
+          window.location.href = "../Delete/@Model.Id";
+      });
     });
-  });
   </script>
 }

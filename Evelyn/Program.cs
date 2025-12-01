@@ -1,7 +1,7 @@
 using Evelyn.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,13 +18,16 @@ if (!environment.IsDevelopment()) builder.WebHost.UseUrls("http://localhost:5010
 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 services.AddAuthorization(options =>
 {
-    options.AddPolicy("IsAuthenticated", policyBuilder => policyBuilder.RequireAuthenticatedUser());
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
 });
 
-services.AddControllersWithViews(options => { options.Filters.Add(new AuthorizeFilter("IsAuthenticated")); });
+services.AddControllersWithViews();
 
 services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+
 services.AddScoped<UserService>();
 services.AddScoped<FileService>();
 services.AddScoped<BookService>();
@@ -40,7 +43,8 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
 
-app.MapStaticAssets();
+// app.MapStaticAssets();
+app.UseStaticFiles();
 app.UseRouting();
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
@@ -49,10 +53,7 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-        "default",
-        "{controller=Account}/{action=Login}/{id?}")
-    .WithStaticAssets();
+app.MapControllerRoute("default", "{controller=Account}/{action=Login}/{id?}");
 
 // Run App
 app.Run();

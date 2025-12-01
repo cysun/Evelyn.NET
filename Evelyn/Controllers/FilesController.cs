@@ -1,27 +1,26 @@
 ﻿using Evelyn.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Evelyn.Controllers
+namespace Evelyn.Controllers;
+
+public class FilesController : Controller
 {
-    public class FilesController : Controller
+    private readonly FileService _fileService;
+
+    public FilesController(FileService fileService)
     {
-        private readonly FileService fileService;
+        _fileService = fileService;
+    }
 
-        public FilesController(FileService fileService)
-        {
-            this.fileService = fileService;
-        }
+    public IActionResult View(int id)
+    {
+        var file = _fileService.GetFile(id);
+        return File(file.OpenReadStream(), file.ContentType);
+    }
 
-        public IActionResult View(int id)
-        {
-            var file = fileService.GetFile(id);
-            return File(file.OpenReadStream(), file.ContentType);
-        }
-
-        public IActionResult Download(int id)
-        {
-            var file = fileService.GetFile(id);
-            return File(file.OpenReadStream(), file.ContentType, file.Name);
-        }
+    public IActionResult Download(int id)
+    {
+        var file = _fileService.GetFile(id);
+        return File(file.OpenReadStream(), file.ContentType, file.Name);
     }
 }
