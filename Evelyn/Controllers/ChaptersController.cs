@@ -44,9 +44,10 @@ public class ChaptersController : Controller
     }
 
     [HttpPost]
-    public IActionResult Edit(int id, string text)
+    public IActionResult Edit(int id, string name, string text)
     {
         var chapter = _chapterService.GetChapter(id);
+        chapter.Name = name;
         var markdownFile = _fileService.GetFile(chapter.MarkdownFileId);
         markdownFile.Text = text;
         var htmlFile = _fileService.GetFile(chapter.HtmlFileId);

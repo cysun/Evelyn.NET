@@ -17,6 +17,9 @@
 
 <form method="post">
   <div class="mb-3">
+    <input type="text" class="form-control" name="name" value="@Model.Name" required maxlength="255" />
+  </div>
+  <div class="mb-3">
     <textarea class="form-control" rows="10" name="text">@Html.Raw(ViewBag.Markdown.Text)</textarea>
   </div>
   <a asp-action="View" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Cancel</a>

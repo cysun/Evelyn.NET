@@ -50,7 +50,7 @@ public class Chapter
 
     [Required]
     [MaxLength(255)]
-    public string Name { get; init; }
+    public string Name { get; set; }
 
     public int MarkdownFileId { get; init; }
     [JsonIgnore] public File MarkdownFile { get; set; }
