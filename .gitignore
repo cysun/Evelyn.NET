@@ -343,3 +343,4 @@ healthchecksdb
 appsettings.json
 Migrations/
 deploy.sh
+.DS_Store
